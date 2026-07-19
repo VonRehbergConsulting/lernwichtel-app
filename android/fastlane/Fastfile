@@ -1,7 +1,7 @@
 default_platform(:android)
 
 platform :android do
-  desc "Signiertes App Bundle in die Google-Play-Spur „internal“ hochladen"
+  desc "Signiertes App Bundle in die Google-Play-Spur 'internal' hochladen"
   lane :deploy do
     upload_to_play_store(
       track: "internal",

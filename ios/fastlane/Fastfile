@@ -36,7 +36,7 @@ def create_temp_keychain(name, password)
 end
 
 platform :ios do
-  desc "Abgelaufene Zertifikate/Profile erneuern (schreibend – lokal ausfuehren)"
+  desc "Abgelaufene Zertifikate/Profile erneuern (schreibend - lokal ausfuehren)"
   lane :renew_certs do
     ensure_env!
     api_key = asc_api_key
