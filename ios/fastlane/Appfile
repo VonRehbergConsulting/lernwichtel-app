@@ -1,0 +1,8 @@
+# Werte koennen ueber GitHub-Secrets/Umgebungsvariablen ueberschrieben werden.
+# Die Fallbacks sind die des vonrehberg-Consulting-Apple-Accounts – vor dem
+# ersten Deploy bitte verifizieren (siehe docs/STORE_RELEASE.md).
+app_identifier(ENV["IOS_APP_IDENTIFIER"] || "app.lernwichtel")
+apple_id(ENV["APPLE_ID"] || "apple@vonrehberg.consulting")
+
+itc_team_id(ENV["ITC_TEAM_ID"] || "125518771") # App Store Connect Team ID
+team_id(ENV["TEAM_ID"] || "383J7R89WY")         # Developer Portal Team ID

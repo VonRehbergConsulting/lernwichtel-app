@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+
+import '../../../core/di/service_locator.dart';
+import '../../../core/widgets/locked_hint.dart';
+import '../../../core/widgets/menu_tile.dart';
+import '../../../data/db/database.dart';
+import '../../../data/repositories/gate_repository.dart';
+import '../../guided/lesson_widgets.dart';
+import '../../learning/learning_sections.dart';
+import '../model/math_problem.dart';
+import 'guided_math_session_page.dart';
+import 'math_exercise_page.dart';
+import 'ziffern_home_page.dart';
+
+/// Auswahl der vier Rechen-Bereiche. Fortgeschrittene Module sind gesperrt, bis
+/// das Vorgaenger-Modul sicher genug ist (oder die Eltern es freischalten).
+class MathHomePage extends StatefulWidget {
+  const MathHomePage({super.key, required this.child});
+
+  final Child child;
+
+  @override
+  State<MathHomePage> createState() => _MathHomePageState();
+}
+
+class _MathHomePageState extends State<MathHomePage> {
+  final _gate = getIt<GateRepository>();
+  Set<String>? _unlocked;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final unlocked = await _gate.unlockedFor(widget.child.id);
+    if (!mounted) return;
+    setState(() => _unlocked = unlocked);
+  }
+
+  void _open(MathModule module) {
+    final key = 'math_${module.key}';
+    if (!(_unlocked ?? const {}).contains(key)) {
+      showLockedHint(context, lockedHintFor(key));
+      return;
+    }
+    Navigator.of(context)
+        .push(MaterialPageRoute(
+          // Ziffern: erst kennenlernen/üben-Auswahl; sonst direkt.
+          builder: (_) => module == MathModule.ziffern
+              ? ZiffernHomePage(child: widget.child)
+              : MathExercisePage(child: widget.child, module: module),
+        ))
+        .then((_) => _load());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const tiles = [
+      (MathModule.ziffern, 'Ziffern', 'Zählen & Zahlen', Color(0xFFFFCC80)),
+      (MathModule.zehner, 'Zahlen bis 100', 'Zehner & Einer', Color(0xFF90CAF9)),
+      (MathModule.addieren, 'Plus', 'Zusammenzählen', Color(0xFFA5D6A7)),
+      (MathModule.subtrahieren, 'Minus', 'Wegnehmen', Color(0xFFF48FB1)),
+    ];
+
+    final unlocked = _unlocked;
+    return Scaffold(
+      appBar: AppBar(title: Text('Rechnen · ${widget.child.name}')),
+      body: SafeArea(
+        child: unlocked == null
+            ? const Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    GuidedLessonCard(
+                      iconId: 'math_lektion',
+                      subtitle: 'Die nächste Zahl gemeinsam einführen',
+                      onTap: () => Navigator.of(context)
+                          .push(MaterialPageRoute(
+                            builder: (_) =>
+                                GuidedMathSessionPage(child: widget.child),
+                          ))
+                          .then((_) => _load()),
+                    ),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        children: [
+                          for (final (module, label, subtitle, color) in tiles)
+                            MenuTile(
+                              iconId: 'math_${module.key}',
+                              emoji: module.emoji,
+                              label: label,
+                              subtitle: subtitle,
+                              color: color,
+                              iconSize: 96,
+                              labelSize: 24,
+                              locked: !unlocked.contains('math_${module.key}'),
+                              onTap: () => _open(module),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
+    );
+  }
+}

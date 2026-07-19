@@ -1,0 +1,34 @@
+{
+  "module_lesen": "An open colorful storybook with a bookmark",
+  "module_rechnen": "A colorful wooden abacus with sliding beads",
+  "lese_buchstaben": {
+    "prompt": "Several colorful wooden alphabet blocks scattered, each showing one big clear capital letter such as A, B, C, D and E",
+    "text": true
+  },
+  "lese_verbindungen": "Two colorful puzzle pieces joining together",
+  "lese_saetze": {
+    "prompt": "A row of a few colorful word cards lined up left to right to form one short simple sentence, each card showing one short readable word",
+    "text": true
+  },
+  "math_ziffern": "A row of colorful round counting beads",
+  "math_zehner": "A tall neat stack of ten colorful cubes",
+  "math_addieren": "A big friendly rounded green plus sign",
+  "math_subtrahieren": "A big friendly rounded orange minus sign",
+  "ziffern_kennenlernen": "A friendly cartoon owl wearing round glasses",
+  "ziffern_ueben": "A single big cheerful yellow pencil",
+  "lernwichtel": "A cute friendly cartoon gnome (Wichtel) with a small pointy hat, holding a big pencil, warm cheerful colors",
+  "parent_kinder": "Three happy cartoon children of different ages standing together side by side",
+  "parent_bilder": "A single framed photograph with a small friendly camera in front of it",
+  "lese_lektion": "A grown-up and a small child sitting side by side, the grown-up pointing at an open picture book they read together",
+  "math_lektion": "A grown-up and a small child sitting side by side counting colorful wooden number blocks together",
+  "lese_schreiben": "A cheerful yellow pencil writing a curvy line on a sheet of paper",
+  "lese_bauen": "A few colorful wooden letter tiles being placed side by side to build a word",
+  "lese_matching": "A big capital letter A next to a small lowercase letter a, connected by a friendly matching line, colorful blocks",
+  "start_anfaenger": "A single small green sprout seedling just emerging from brown soil",
+  "start_etwas": "A small leafy green potted plant with a few fresh leaves",
+  "start_geuebt": "A sturdy little tree with a full round leafy green crown",
+  "feier_stern": "A single bright glowing golden five-pointed star with a happy cheerful face",
+  "feier_konfetti": "A colorful party popper shooting out confetti and streamers",
+  "such_lupe": "A friendly magnifying glass searching for something",
+  "hinweis_schloss": "A friendly closed golden padlock"
+}

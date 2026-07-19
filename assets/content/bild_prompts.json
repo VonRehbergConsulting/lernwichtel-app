@@ -1,0 +1,894 @@
+{
+  "Mama": {
+    "slug": "mama",
+    "prompt": "A friendly cartoon mother smiling warmly, upper body"
+  },
+  "Maus": {
+    "slug": "maus",
+    "prompt": "A cute little grey mouse with big round ears"
+  },
+  "Mond": {
+    "slug": "mond",
+    "prompt": "A friendly yellow crescent moon"
+  },
+  "Mund": {
+    "slug": "mund",
+    "prompt": "A friendly smiling mouth with white teeth"
+  },
+  "Affe": {
+    "slug": "affe",
+    "prompt": "A cheerful little brown monkey"
+  },
+  "Apfel": {
+    "slug": "apfel",
+    "prompt": "A single shiny red apple with a green leaf"
+  },
+  "Ameise": {
+    "slug": "ameise",
+    "prompt": "A small friendly black ant"
+  },
+  "Ast": {
+    "slug": "ast",
+    "prompt": "A single tree branch with a few green leaves"
+  },
+  "Lampe": {
+    "slug": "lampe",
+    "prompt": "A cozy table lamp glowing softly"
+  },
+  "Löwe": {
+    "slug": "loewe",
+    "prompt": "A friendly lion with a fluffy golden mane"
+  },
+  "Leiter": {
+    "slug": "leiter",
+    "prompt": "A simple wooden ladder"
+  },
+  "Lego": {
+    "slug": "lego",
+    "prompt": "A few colorful toy building blocks stacked"
+  },
+  "Ofen": {
+    "slug": "ofen",
+    "prompt": "A warm kitchen oven with a round window"
+  },
+  "Oma": {
+    "slug": "oma",
+    "prompt": "A kind smiling grandmother with grey hair"
+  },
+  "Opa": {
+    "slug": "opa",
+    "prompt": "A kind smiling grandfather with glasses"
+  },
+  "Ohr": {
+    "slug": "ohr",
+    "prompt": "A single friendly human ear"
+  },
+  "Sonne": {
+    "slug": "sonne",
+    "prompt": "A bright yellow smiling sun"
+  },
+  "Sofa": {
+    "slug": "sofa",
+    "prompt": "A cozy comfy couch with cushions"
+  },
+  "Sand": {
+    "slug": "sand",
+    "prompt": "A small pile of golden sand with a toy bucket"
+  },
+  "Salz": {
+    "slug": "salz",
+    "prompt": "A little white salt shaker"
+  },
+  "Esel": {
+    "slug": "esel",
+    "prompt": "A friendly grey donkey"
+  },
+  "Ente": {
+    "slug": "ente",
+    "prompt": "A cute yellow duck"
+  },
+  "Elefant": {
+    "slug": "elefant",
+    "prompt": "A friendly grey elephant with big ears"
+  },
+  "Eimer": {
+    "slug": "eimer",
+    "prompt": "A colorful toy bucket with a handle"
+  },
+  "Nase": {
+    "slug": "nase",
+    "prompt": "A friendly cartoon nose"
+  },
+  "Nest": {
+    "slug": "nest",
+    "prompt": "A cozy round bird nest with three eggs"
+  },
+  "Nuss": {
+    "slug": "nuss",
+    "prompt": "A single brown hazelnut"
+  },
+  "Nashorn": {
+    "slug": "nashorn",
+    "prompt": "A friendly grey rhinoceros"
+  },
+  "Rad": {
+    "slug": "rad",
+    "prompt": "A single bicycle wheel"
+  },
+  "Rose": {
+    "slug": "rose",
+    "prompt": "A single red rose with a green stem"
+  },
+  "Roboter": {
+    "slug": "roboter",
+    "prompt": "A cute friendly boxy robot"
+  },
+  "Regen": {
+    "slug": "regen",
+    "prompt": "Blue rain drops falling from a fluffy cloud"
+  },
+  "Fisch": {
+    "slug": "fisch",
+    "prompt": "A cheerful orange fish"
+  },
+  "Fee": {
+    "slug": "fee",
+    "prompt": "A tiny friendly fairy with sparkly wings"
+  },
+  "Feder": {
+    "slug": "feder",
+    "prompt": "A single soft blue feather"
+  },
+  "Fuchs": {
+    "slug": "fuchs",
+    "prompt": "A cute orange fox with a bushy tail"
+  },
+  "Igel": {
+    "slug": "igel",
+    "prompt": "A cute little hedgehog with soft spikes"
+  },
+  "Insel": {
+    "slug": "insel",
+    "prompt": "A tiny island with one palm tree in the sea"
+  },
+  "Igloo": {
+    "slug": "igloo",
+    "prompt": "A small igloo made of ice blocks"
+  },
+  "Tasse": {
+    "slug": "tasse",
+    "prompt": "A cozy cup of tea with steam"
+  },
+  "Tisch": {
+    "slug": "tisch",
+    "prompt": "A simple wooden table"
+  },
+  "Tor": {
+    "slug": "tor",
+    "prompt": "A soccer goal with a net"
+  },
+  "Tiger": {
+    "slug": "tiger",
+    "prompt": "A friendly orange striped tiger"
+  },
+  "Ball": {
+    "slug": "ball",
+    "prompt": "A colorful bouncy ball"
+  },
+  "Banane": {
+    "slug": "banane",
+    "prompt": "A single ripe yellow banana"
+  },
+  "Baum": {
+    "slug": "baum",
+    "prompt": "A friendly round green tree"
+  },
+  "Bus": {
+    "slug": "bus",
+    "prompt": "A cheerful yellow bus"
+  },
+  "Papa": {
+    "slug": "papa",
+    "prompt": "A friendly cartoon father smiling, upper body"
+  },
+  "Pferd": {
+    "slug": "pferd",
+    "prompt": "A friendly brown horse"
+  },
+  "Pilz": {
+    "slug": "pilz",
+    "prompt": "A red mushroom with white dots"
+  },
+  "Puppe": {
+    "slug": "puppe",
+    "prompt": "A cute little rag doll"
+  },
+  "Dose": {
+    "slug": "dose",
+    "prompt": "A simple tin can"
+  },
+  "Dach": {
+    "slug": "dach",
+    "prompt": "A simple red house roof"
+  },
+  "Delfin": {
+    "slug": "delfin",
+    "prompt": "A happy blue dolphin jumping"
+  },
+  "Drache": {
+    "slug": "drache",
+    "prompt": "A friendly little green dragon"
+  },
+  "Uhr": {
+    "slug": "uhr",
+    "prompt": "A round wall clock"
+  },
+  "Uhu": {
+    "slug": "uhu",
+    "prompt": "A cute brown owl"
+  },
+  "Ufo": {
+    "slug": "ufo",
+    "prompt": "A cartoon flying saucer with lights"
+  },
+  "Haus": {
+    "slug": "haus",
+    "prompt": "A cozy little house with a red roof"
+  },
+  "Hund": {
+    "slug": "hund",
+    "prompt": "A friendly happy puppy dog"
+  },
+  "Hut": {
+    "slug": "hut",
+    "prompt": "A simple round hat"
+  },
+  "Hase": {
+    "slug": "hase",
+    "prompt": "A cute bunny rabbit with long ears"
+  },
+  "Katze": {
+    "slug": "katze",
+    "prompt": "A cute kitten cat"
+  },
+  "Kuh": {
+    "slug": "kuh",
+    "prompt": "A friendly white cow with brown spots"
+  },
+  "Koffer": {
+    "slug": "koffer",
+    "prompt": "A travel suitcase with a handle"
+  },
+  "Krone": {
+    "slug": "krone",
+    "prompt": "A golden crown with jewels"
+  },
+  "Gabel": {
+    "slug": "gabel",
+    "prompt": "A single silver fork"
+  },
+  "Gans": {
+    "slug": "gans",
+    "prompt": "A friendly white goose"
+  },
+  "Garten": {
+    "slug": "garten",
+    "prompt": "A small garden with colorful flowers"
+  },
+  "Giraffe": {
+    "slug": "giraffe",
+    "prompt": "A friendly tall giraffe with a long neck"
+  },
+  "Wasser": {
+    "slug": "wasser",
+    "prompt": "A clear glass of water"
+  },
+  "Wolke": {
+    "slug": "wolke",
+    "prompt": "A fluffy white cloud"
+  },
+  "Welle": {
+    "slug": "welle",
+    "prompt": "A single curling blue ocean wave"
+  },
+  "Wald": {
+    "slug": "wald",
+    "prompt": "A small forest of green trees"
+  },
+  "Zug": {
+    "slug": "zug",
+    "prompt": "A cheerful train engine"
+  },
+  "Zahn": {
+    "slug": "zahn",
+    "prompt": "A single friendly white tooth"
+  },
+  "Zebra": {
+    "slug": "zebra",
+    "prompt": "A friendly black and white striped zebra"
+  },
+  "Zitrone": {
+    "slug": "zitrone",
+    "prompt": "A single bright yellow lemon"
+  },
+  "Jacke": {
+    "slug": "jacke",
+    "prompt": "A cozy zip-up jacket"
+  },
+  "Junge": {
+    "slug": "junge",
+    "prompt": "A happy little boy"
+  },
+  "Jaguar": {
+    "slug": "jaguar",
+    "prompt": "A spotted jaguar big cat"
+  },
+  "Joghurt": {
+    "slug": "joghurt",
+    "prompt": "A cup of yogurt with a spoon and a berry"
+  },
+  "Vogel": {
+    "slug": "vogel",
+    "prompt": "A cheerful little blue bird"
+  },
+  "Vase": {
+    "slug": "vase",
+    "prompt": "A vase with a few colorful flowers"
+  },
+  "Vater": {
+    "slug": "vater",
+    "prompt": "A friendly cartoon father smiling"
+  },
+  "Äpfel": {
+    "slug": "aepfel",
+    "prompt": "A small pile of shiny red apples"
+  },
+  "Ärmel": {
+    "slug": "aermel",
+    "prompt": "A colorful sweater with one sleeve raised"
+  },
+  "Äste": {
+    "slug": "aeste",
+    "prompt": "A few bare tree branches"
+  },
+  "Öl": {
+    "slug": "oel",
+    "prompt": "A bottle of golden cooking oil"
+  },
+  "Öfen": {
+    "slug": "oefen",
+    "prompt": "A warm kitchen oven with a round window"
+  },
+  "Übung": {
+    "slug": "uebung",
+    "prompt": "A cheerful child doing a fun stretching exercise"
+  },
+  "Überall": {
+    "slug": "ueberall",
+    "prompt": "Colorful little stars scattered all around"
+  },
+  "Clown": {
+    "slug": "clown",
+    "prompt": "A happy friendly clown with a red nose"
+  },
+  "Computer": {
+    "slug": "computer",
+    "prompt": "A friendly desktop computer with a blank screen"
+  },
+  "Xylophon": {
+    "slug": "xylophon",
+    "prompt": "A colorful toy xylophone with mallets"
+  },
+  "Hexe": {
+    "slug": "hexe",
+    "prompt": "A friendly little witch with a pointy hat"
+  },
+  "Taxi": {
+    "slug": "taxi",
+    "prompt": "A cheerful yellow taxi car"
+  },
+  "Yak": {
+    "slug": "yak",
+    "prompt": "A fluffy brown yak with horns"
+  },
+  "Yoga": {
+    "slug": "yoga",
+    "prompt": "A calm child in a simple yoga pose"
+  },
+  "Straße": {
+    "slug": "strasse",
+    "prompt": "A simple town street with a grey road"
+  },
+  "Fuß": {
+    "slug": "fuss",
+    "prompt": "A single friendly bare foot"
+  },
+  "Fußball": {
+    "slug": "fussball",
+    "prompt": "A classic black and white soccer ball"
+  },
+  "Ei": {
+    "slug": "ei",
+    "prompt": "A single white egg"
+  },
+  "Eis": {
+    "slug": "eis",
+    "prompt": "An ice cream cone with two scoops"
+  },
+  "Bein": {
+    "slug": "bein",
+    "prompt": "A single friendly cartoon leg"
+  },
+  "Stein": {
+    "slug": "stein",
+    "prompt": "A smooth grey stone"
+  },
+  "zwei": {
+    "slug": "zwei",
+    "prompt": "Two shiny red apples side by side"
+  },
+  "Auto": {
+    "slug": "auto",
+    "prompt": "A cheerful little red car"
+  },
+  "Auge": {
+    "slug": "auge",
+    "prompt": "A friendly cartoon eye"
+  },
+  "blau": {
+    "slug": "blau",
+    "prompt": "A round splash of bright blue paint"
+  },
+  "Eule": {
+    "slug": "eule",
+    "prompt": "A cute owl with big round eyes"
+  },
+  "Euro": {
+    "slug": "euro",
+    "prompt": "A single shiny gold coin"
+  },
+  "Feuer": {
+    "slug": "feuer",
+    "prompt": "A friendly little campfire flame"
+  },
+  "Heu": {
+    "slug": "heu",
+    "prompt": "A round bale of golden hay"
+  },
+  "neun": {
+    "slug": "neun",
+    "prompt": "Nine little yellow stars grouped together. Nine, not ten."
+  },
+  "Freund": {
+    "slug": "freund",
+    "prompt": "Two happy children as friends holding hands"
+  },
+  "Häuser": {
+    "slug": "haeuser",
+    "prompt": "A row of three cozy little houses"
+  },
+  "Bäume": {
+    "slug": "baeume",
+    "prompt": "A few friendly green trees"
+  },
+  "Läufer": {
+    "slug": "laeufer",
+    "prompt": "A cheerful child running"
+  },
+  "Mäuse": {
+    "slug": "maeuse",
+    "prompt": "Two little grey mice together"
+  },
+  "Biene": {
+    "slug": "biene",
+    "prompt": "A cute yellow and black bee"
+  },
+  "Wiese": {
+    "slug": "wiese",
+    "prompt": "A green meadow with small flowers"
+  },
+  "Ziege": {
+    "slug": "ziege",
+    "prompt": "A friendly little white goat"
+  },
+  "sieben": {
+    "slug": "sieben",
+    "prompt": "Seven little red berries grouped together"
+  },
+  "Riese": {
+    "slug": "riese",
+    "prompt": "A friendly smiling giant"
+  },
+  "Schule": {
+    "slug": "schule",
+    "prompt": "A cheerful school building"
+  },
+  "Schaf": {
+    "slug": "schaf",
+    "prompt": "A fluffy white sheep"
+  },
+  "Schiff": {
+    "slug": "schiff",
+    "prompt": "A cute sailing ship on water"
+  },
+  "Schmetterling": {
+    "slug": "schmetterling",
+    "prompt": "A colorful butterfly"
+  },
+  "waschen": {
+    "slug": "waschen",
+    "prompt": "A child washing hands with soap bubbles"
+  },
+  "Buch": {
+    "slug": "buch",
+    "prompt": "A closed colorful storybook"
+  },
+  "Bach": {
+    "slug": "bach",
+    "prompt": "A small blue stream flowing over stones"
+  },
+  "Nacht": {
+    "slug": "nacht",
+    "prompt": "A dark blue night sky with moon and stars"
+  },
+  "Kuchen": {
+    "slug": "kuchen",
+    "prompt": "A slice of birthday cake with a cherry"
+  },
+  "lachen": {
+    "slug": "lachen",
+    "prompt": "A happy laughing child face"
+  },
+  "ich": {
+    "slug": "ich",
+    "prompt": "A happy child pointing at themselves with a thumb"
+  },
+  "Licht": {
+    "slug": "licht",
+    "prompt": "A glowing yellow light bulb"
+  },
+  "Milch": {
+    "slug": "milch",
+    "prompt": "A tall glass of milk"
+  },
+  "Kirche": {
+    "slug": "kirche",
+    "prompt": "A little church with a steeple"
+  },
+  "Küche": {
+    "slug": "kueche",
+    "prompt": "A cozy little kitchen with a stove"
+  },
+  "Spinne": {
+    "slug": "spinne",
+    "prompt": "A friendly cartoon spider"
+  },
+  "Sport": {
+    "slug": "sport",
+    "prompt": "A cheerful child kicking a ball"
+  },
+  "spielen": {
+    "slug": "spielen",
+    "prompt": "A happy child playing with toys"
+  },
+  "Sparschwein": {
+    "slug": "sparschwein",
+    "prompt": "A pink piggy bank"
+  },
+  "Spielzeug": {
+    "slug": "spielzeug",
+    "prompt": "A pile of colorful toys"
+  },
+  "Stern": {
+    "slug": "stern",
+    "prompt": "A single bright yellow star"
+  },
+  "Stuhl": {
+    "slug": "stuhl",
+    "prompt": "A simple wooden chair"
+  },
+  "Stiefel": {
+    "slug": "stiefel",
+    "prompt": "A pair of red rain boots"
+  },
+  "Pfanne": {
+    "slug": "pfanne",
+    "prompt": "A black frying pan"
+  },
+  "Kopf": {
+    "slug": "kopf",
+    "prompt": "A friendly round cartoon head"
+  },
+  "Pflaume": {
+    "slug": "pflaume",
+    "prompt": "A single purple plum"
+  },
+  "Zucker": {
+    "slug": "zucker",
+    "prompt": "A little bowl of white sugar cubes"
+  },
+  "Ecke": {
+    "slug": "ecke",
+    "prompt": "A cozy room corner with a small green plant"
+  },
+  "Socke": {
+    "slug": "socke",
+    "prompt": "A single striped sock"
+  },
+  "Glocke": {
+    "slug": "glocke",
+    "prompt": "A shiny golden bell"
+  },
+  "Mütze": {
+    "slug": "muetze",
+    "prompt": "A cozy knitted winter hat with a pom-pom"
+  },
+  "Blitz": {
+    "slug": "blitz",
+    "prompt": "A bright yellow lightning bolt"
+  },
+  "Platz": {
+    "slug": "platz",
+    "prompt": "A town square with a bench and a tree"
+  },
+  "Schatz": {
+    "slug": "schatz",
+    "prompt": "An open treasure chest full of gold coins"
+  },
+  "Finger": {
+    "slug": "finger",
+    "prompt": "A friendly hand pointing with one finger"
+  },
+  "Ring": {
+    "slug": "ring",
+    "prompt": "A shiny golden ring with a gem"
+  },
+  "singen": {
+    "slug": "singen",
+    "prompt": "A happy child singing with an open mouth"
+  },
+  "lang": {
+    "slug": "lang",
+    "prompt": "A very long friendly green snake stretched out"
+  },
+  "springen": {
+    "slug": "springen",
+    "prompt": "A cheerful child jumping in the air"
+  },
+  "Quark": {
+    "slug": "quark",
+    "prompt": "A bowl of white creamy quark cheese"
+  },
+  "Qualle": {
+    "slug": "qualle",
+    "prompt": "A cute pink jellyfish"
+  },
+  "Quelle": {
+    "slug": "quelle",
+    "prompt": "A little water spring bubbling from rocks"
+  },
+  "quaken": {
+    "slug": "quaken",
+    "prompt": "A green frog with an open mouth quacking"
+  },
+  "quietschen": {
+    "slug": "quietschen",
+    "prompt": "A yellow rubber duck squeaking"
+  },
+  "Reis": {
+    "slug": "reis",
+    "prompt": "A small bowl of cooked white rice"
+  },
+  "Seife": {
+    "slug": "seife",
+    "prompt": "A colorful bar of soap with bubbles"
+  },
+  "Reifen": {
+    "slug": "reifen",
+    "prompt": "A single black rubber car tire"
+  },
+  "Geige": {
+    "slug": "geige",
+    "prompt": "A brown wooden violin with a bow"
+  },
+  "Meise": {
+    "slug": "meise",
+    "prompt": "A small blue and yellow tit bird on a twig"
+  },
+  "Leine": {
+    "slug": "leine",
+    "prompt": "A red dog leash"
+  },
+  "Traube": {
+    "slug": "traube",
+    "prompt": "A bunch of purple grapes"
+  },
+  "Raupe": {
+    "slug": "raupe",
+    "prompt": "A cute smiling green caterpillar"
+  },
+  "Zaun": {
+    "slug": "zaun",
+    "prompt": "A simple wooden garden fence"
+  },
+  "Laub": {
+    "slug": "laub",
+    "prompt": "A small pile of colorful autumn leaves"
+  },
+  "Daumen": {
+    "slug": "daumen",
+    "prompt": "A hand giving a thumbs up"
+  },
+  "Kreuz": {
+    "slug": "kreuz",
+    "prompt": "A simple red plus cross"
+  },
+  "Beutel": {
+    "slug": "beutel",
+    "prompt": "A small brown cloth drawstring bag"
+  },
+  "Leuchtturm": {
+    "slug": "leuchtturm",
+    "prompt": "A red and white striped lighthouse by the sea"
+  },
+  "Scheune": {
+    "slug": "scheune",
+    "prompt": "A red wooden barn"
+  },
+  "Räuber": {
+    "slug": "raeuber",
+    "prompt": "A friendly cartoon robber with an eye mask and a striped shirt"
+  },
+  "Säule": {
+    "slug": "saeule",
+    "prompt": "A white stone column pillar"
+  },
+  "Kräuter": {
+    "slug": "kraeuter",
+    "prompt": "A small bunch of fresh green herbs"
+  },
+  "Brief": {
+    "slug": "brief",
+    "prompt": "A white envelope with a stamp"
+  },
+  "Fliege": {
+    "slug": "fliege",
+    "prompt": "A small black housefly"
+  },
+  "Tier": {
+    "slug": "tier",
+    "prompt": "A cute friendly cartoon animal"
+  },
+  "Frosch": {
+    "slug": "frosch",
+    "prompt": "A cute green frog"
+  },
+  "Flasche": {
+    "slug": "flasche",
+    "prompt": "A clear glass bottle of water"
+  },
+  "Muschel": {
+    "slug": "muschel",
+    "prompt": "A pretty pink seashell"
+  },
+  "Schnecke": {
+    "slug": "schnecke",
+    "prompt": "A cute snail with a spiral shell"
+  },
+  "Dachs": {
+    "slug": "dachs",
+    "prompt": "A cute black and white badger"
+  },
+  "Becher": {
+    "slug": "becher",
+    "prompt": "A colorful plastic cup"
+  },
+  "Teppich": {
+    "slug": "teppich",
+    "prompt": "A patterned rectangular carpet"
+  },
+  "Brötchen": {
+    "slug": "broetchen",
+    "prompt": "A round bread roll"
+  },
+  "Pfirsich": {
+    "slug": "pfirsich",
+    "prompt": "A ripe orange peach"
+  },
+  "Spaten": {
+    "slug": "spaten",
+    "prompt": "A garden spade"
+  },
+  "Specht": {
+    "slug": "specht",
+    "prompt": "A colorful woodpecker on a tree trunk"
+  },
+  "Spatz": {
+    "slug": "spatz",
+    "prompt": "A small brown sparrow"
+  },
+  "Spiegel": {
+    "slug": "spiegel",
+    "prompt": "A round hand mirror"
+  },
+  "Stift": {
+    "slug": "stift",
+    "prompt": "A colorful pencil"
+  },
+  "Wurst": {
+    "slug": "wurst",
+    "prompt": "A single sausage"
+  },
+  "Storch": {
+    "slug": "storch",
+    "prompt": "A white stork with a red beak"
+  },
+  "Pfote": {
+    "slug": "pfote",
+    "prompt": "A single animal paw"
+  },
+  "Topf": {
+    "slug": "topf",
+    "prompt": "A metal cooking pot"
+  },
+  "Pfau": {
+    "slug": "pfau",
+    "prompt": "A colorful peacock with open feathers"
+  },
+  "Pfeil": {
+    "slug": "pfeil",
+    "prompt": "A single arrow pointing right"
+  },
+  "Brücke": {
+    "slug": "bruecke",
+    "prompt": "A stone arch bridge over a river"
+  },
+  "Wecker": {
+    "slug": "wecker",
+    "prompt": "A round alarm clock with two bells"
+  },
+  "Decke": {
+    "slug": "decke",
+    "prompt": "A cozy folded blanket"
+  },
+  "Rucksack": {
+    "slug": "rucksack",
+    "prompt": "A childs colorful backpack"
+  },
+  "Netz": {
+    "slug": "netz",
+    "prompt": "A fishing net"
+  },
+  "Klotz": {
+    "slug": "klotz",
+    "prompt": "A wooden toy building block"
+  },
+  "Glatze": {
+    "slug": "glatze",
+    "prompt": "A smiling cartoon bald head"
+  },
+  "Zunge": {
+    "slug": "zunge",
+    "prompt": "A cartoon tongue sticking out"
+  },
+  "Angel": {
+    "slug": "angel",
+    "prompt": "A fishing rod with a line"
+  },
+  "Zange": {
+    "slug": "zange",
+    "prompt": "A pair of metal pliers"
+  },
+  "Schlange": {
+    "slug": "schlange",
+    "prompt": "A friendly green snake"
+  },
+  "Quadrat": {
+    "slug": "quadrat",
+    "prompt": "A blue square shape"
+  },
+  "Quirl": {
+    "slug": "quirl",
+    "prompt": "A metal kitchen whisk"
+  }
+}

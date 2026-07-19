@@ -1,0 +1,840 @@
+{
+  "meta": {
+    "sprache": "de",
+    "version": 1,
+    "hinweis": "Seed-Inhalte fuer das Lese-Modul. 'laut' beschreibt den zu SPRECHENDEN Laut (Anlaut-Methode), NICHT den Buchstabennamen. Fuer Plosive (b, d, g, k, p, t) den Laut so kurz wie moeglich ohne angehaengtes 'e' aufnehmen.",
+    "empfohlene_reihenfolge_begruendung": "Nicht alphabetisch. Zuerst Dauerlaute (M, A, L, O, S, E, N, R, F, I), weil man sie halten und leicht zu Woertern verschleifen kann. Plosive und schwierige Laute spaeter."
+  },
+  "buchstaben": [
+    {
+      "grapheme": "m",
+      "typ": "dauerlaut",
+      "laut": "mmm",
+      "reihenfolge": 1,
+      "beispiele": [
+        "Mama",
+        "Maus",
+        "Mond",
+        "Mund"
+      ]
+    },
+    {
+      "grapheme": "a",
+      "typ": "vokal",
+      "laut": "aaa",
+      "reihenfolge": 2,
+      "beispiele": [
+        "Affe",
+        "Apfel",
+        "Ameise",
+        "Ast"
+      ]
+    },
+    {
+      "grapheme": "l",
+      "typ": "dauerlaut",
+      "laut": "lll",
+      "reihenfolge": 3,
+      "beispiele": [
+        "Lampe",
+        "Löwe",
+        "Leiter",
+        "Lego"
+      ]
+    },
+    {
+      "grapheme": "o",
+      "typ": "vokal",
+      "laut": "ooo",
+      "reihenfolge": 4,
+      "beispiele": [
+        "Ofen",
+        "Oma",
+        "Opa",
+        "Ohr"
+      ]
+    },
+    {
+      "grapheme": "s",
+      "typ": "dauerlaut",
+      "laut": "sss (stimmlos, wie Schlange)",
+      "reihenfolge": 5,
+      "beispiele": [
+        "Sonne",
+        "Sofa",
+        "Sand",
+        "Salz"
+      ]
+    },
+    {
+      "grapheme": "e",
+      "typ": "vokal",
+      "laut": "eee",
+      "reihenfolge": 6,
+      "beispiele": [
+        "Esel",
+        "Ente",
+        "Elefant",
+        "Eimer"
+      ]
+    },
+    {
+      "grapheme": "n",
+      "typ": "dauerlaut",
+      "laut": "nnn",
+      "reihenfolge": 7,
+      "beispiele": [
+        "Nase",
+        "Nest",
+        "Nuss",
+        "Nashorn"
+      ]
+    },
+    {
+      "grapheme": "r",
+      "typ": "dauerlaut",
+      "laut": "rrr",
+      "reihenfolge": 8,
+      "beispiele": [
+        "Rad",
+        "Rose",
+        "Roboter",
+        "Regen"
+      ]
+    },
+    {
+      "grapheme": "f",
+      "typ": "dauerlaut",
+      "laut": "fff",
+      "reihenfolge": 9,
+      "beispiele": [
+        "Fisch",
+        "Fee",
+        "Feder",
+        "Fuchs"
+      ]
+    },
+    {
+      "grapheme": "i",
+      "typ": "vokal",
+      "laut": "iii",
+      "reihenfolge": 10,
+      "beispiele": [
+        "Igel",
+        "Insel",
+        "Igloo"
+      ]
+    },
+    {
+      "grapheme": "t",
+      "typ": "plosiv",
+      "laut": "t (kurz, ohne 'e')",
+      "reihenfolge": 11,
+      "beispiele": [
+        "Tasse",
+        "Tisch",
+        "Tor",
+        "Tiger"
+      ]
+    },
+    {
+      "grapheme": "b",
+      "typ": "plosiv",
+      "laut": "b (kurz, ohne 'e')",
+      "reihenfolge": 12,
+      "beispiele": [
+        "Ball",
+        "Banane",
+        "Baum",
+        "Bus"
+      ]
+    },
+    {
+      "grapheme": "p",
+      "typ": "plosiv",
+      "laut": "p (kurz, ohne 'e')",
+      "reihenfolge": 13,
+      "beispiele": [
+        "Papa",
+        "Pferd",
+        "Pilz",
+        "Puppe"
+      ]
+    },
+    {
+      "grapheme": "d",
+      "typ": "plosiv",
+      "laut": "d (kurz, ohne 'e')",
+      "reihenfolge": 14,
+      "beispiele": [
+        "Dose",
+        "Dach",
+        "Delfin",
+        "Drache"
+      ]
+    },
+    {
+      "grapheme": "u",
+      "typ": "vokal",
+      "laut": "uuu",
+      "reihenfolge": 15,
+      "beispiele": [
+        "Uhr",
+        "Uhu",
+        "Ufo"
+      ]
+    },
+    {
+      "grapheme": "h",
+      "typ": "hauchlaut",
+      "laut": "h (hauchen)",
+      "reihenfolge": 16,
+      "beispiele": [
+        "Haus",
+        "Hund",
+        "Hut",
+        "Hase"
+      ]
+    },
+    {
+      "grapheme": "k",
+      "typ": "plosiv",
+      "laut": "k (kurz, ohne 'e')",
+      "reihenfolge": 17,
+      "beispiele": [
+        "Katze",
+        "Kuh",
+        "Koffer",
+        "Krone"
+      ]
+    },
+    {
+      "grapheme": "g",
+      "typ": "plosiv",
+      "laut": "g (kurz, ohne 'e')",
+      "reihenfolge": 18,
+      "beispiele": [
+        "Gabel",
+        "Gans",
+        "Garten",
+        "Giraffe"
+      ]
+    },
+    {
+      "grapheme": "w",
+      "typ": "dauerlaut",
+      "laut": "www",
+      "reihenfolge": 19,
+      "beispiele": [
+        "Wasser",
+        "Wolke",
+        "Welle",
+        "Wald"
+      ]
+    },
+    {
+      "grapheme": "z",
+      "typ": "plosiv",
+      "laut": "z (wie ts)",
+      "reihenfolge": 20,
+      "beispiele": [
+        "Zug",
+        "Zahn",
+        "Zebra",
+        "Zitrone"
+      ]
+    },
+    {
+      "grapheme": "j",
+      "typ": "dauerlaut",
+      "laut": "j (wie jjj)",
+      "reihenfolge": 21,
+      "beispiele": [
+        "Jacke",
+        "Junge",
+        "Jaguar",
+        "Joghurt"
+      ]
+    },
+    {
+      "grapheme": "v",
+      "typ": "dauerlaut",
+      "laut": "meist wie fff",
+      "reihenfolge": 22,
+      "beispiele": [
+        "Vogel",
+        "Vase",
+        "Vater"
+      ]
+    },
+    {
+      "grapheme": "ae",
+      "grapheme_anzeige": "ä",
+      "typ": "vokal",
+      "laut": "aeae (offenes ae)",
+      "reihenfolge": 23,
+      "beispiele": [
+        "Äpfel",
+        "Ärmel",
+        "Äste"
+      ]
+    },
+    {
+      "grapheme": "oe",
+      "grapheme_anzeige": "ö",
+      "typ": "vokal",
+      "laut": "oeoe",
+      "reihenfolge": 24,
+      "beispiele": [
+        "Öl",
+        "Öfen"
+      ]
+    },
+    {
+      "grapheme": "ue",
+      "grapheme_anzeige": "ü",
+      "typ": "vokal",
+      "laut": "ueue",
+      "reihenfolge": 25,
+      "beispiele": [
+        "Übung",
+        "Überall"
+      ]
+    },
+    {
+      "grapheme": "c",
+      "typ": "sonderfall",
+      "laut": "meist nur in 'ch' oder 'ck' - spaeter",
+      "reihenfolge": 90,
+      "beispiele": [
+        "Clown",
+        "Computer"
+      ]
+    },
+    {
+      "grapheme": "q",
+      "typ": "sonderfall",
+      "laut": "immer 'qu' (kw)",
+      "reihenfolge": 91,
+      "beispiele": [
+        "Quark",
+        "Qualle",
+        "Quelle"
+      ]
+    },
+    {
+      "grapheme": "x",
+      "typ": "sonderfall",
+      "laut": "ks",
+      "reihenfolge": 92,
+      "beispiele": [
+        "Xylophon",
+        "Hexe",
+        "Taxi"
+      ]
+    },
+    {
+      "grapheme": "y",
+      "typ": "sonderfall",
+      "laut": "meist wie ue oder j",
+      "reihenfolge": 93,
+      "beispiele": [
+        "Yak",
+        "Yoga"
+      ]
+    },
+    {
+      "grapheme": "ss",
+      "grapheme_anzeige": "ß",
+      "typ": "sonderfall",
+      "laut": "sss (stimmlos) - nie am Wortanfang",
+      "reihenfolge": 94,
+      "beispiele": [
+        "Fuß",
+        "Straße",
+        "Fußball"
+      ]
+    }
+  ],
+  "lautverbindungen": [
+    {
+      "grapheme": "ei",
+      "laut": "ei (wie in Ei)",
+      "merkhilfe": "ei – wie das Ei im Nest!",
+      "beispiele": [
+        "Ei",
+        "Eis",
+        "Eimer",
+        "Bein",
+        "Stein",
+        "zwei",
+        "Reis",
+        "Seife",
+        "Reifen",
+        "Geige",
+        "Meise",
+        "Leine"
+      ]
+    },
+    {
+      "grapheme": "au",
+      "laut": "au (wie in Auto)",
+      "merkhilfe": "au – wie beim Aua!",
+      "beispiele": [
+        "Auto",
+        "Auge",
+        "Baum",
+        "Maus",
+        "Haus",
+        "blau",
+        "Traube",
+        "Raupe",
+        "Zaun",
+        "Laub",
+        "Daumen"
+      ]
+    },
+    {
+      "grapheme": "eu",
+      "laut": "eu (wie in Eule)",
+      "merkhilfe": "eu – wie die Eule ruft.",
+      "beispiele": [
+        "Eule",
+        "Euro",
+        "Feuer",
+        "Heu",
+        "neun",
+        "Freund",
+        "Kreuz",
+        "Beutel",
+        "Leuchtturm",
+        "Scheune"
+      ]
+    },
+    {
+      "grapheme": "aeu",
+      "grapheme_anzeige": "äu",
+      "laut": "wie eu",
+      "merkhilfe": "äu – das au mit zwei Pünktchen.",
+      "beispiele": [
+        "Häuser",
+        "Bäume",
+        "Läufer",
+        "Mäuse",
+        "Räuber",
+        "Säule",
+        "Kräuter"
+      ]
+    },
+    {
+      "grapheme": "ie",
+      "laut": "iii (langes i)",
+      "merkhilfe": "ie – ein ganz langes iiih.",
+      "beispiele": [
+        "Biene",
+        "Wiese",
+        "Ziege",
+        "Tiger",
+        "sieben",
+        "Riese",
+        "Brief",
+        "Fliege",
+        "Tier"
+      ]
+    },
+    {
+      "grapheme": "sch",
+      "laut": "sch",
+      "merkhilfe": "sch – pssst, ganz leise: schhh!",
+      "beispiele": [
+        "Schule",
+        "Schaf",
+        "Fisch",
+        "Schiff",
+        "Schmetterling",
+        "waschen",
+        "Tisch",
+        "Frosch",
+        "Flasche",
+        "Muschel",
+        "Schnecke"
+      ]
+    },
+    {
+      "grapheme": "ch-ach",
+      "grapheme_anzeige": "ch",
+      "laut": "ch (hart, nach a/o/u - Bach)",
+      "merkhilfe": "ch – wie ein Drache: chchch!",
+      "beispiele": [
+        "Buch",
+        "Dach",
+        "Bach",
+        "Nacht",
+        "Kuchen",
+        "lachen",
+        "Drache",
+        "Dachs"
+      ]
+    },
+    {
+      "grapheme": "ch-ich",
+      "grapheme_anzeige": "ch",
+      "laut": "ch (weich, nach e/i - ich)",
+      "merkhilfe": "ch – wie ein Kätzchen faucht.",
+      "beispiele": [
+        "ich",
+        "Licht",
+        "Milch",
+        "Kirche",
+        "Küche",
+        "Becher",
+        "Teppich",
+        "Brötchen",
+        "Pfirsich"
+      ]
+    },
+    {
+      "grapheme": "sp",
+      "laut": "schp (am Wortanfang)",
+      "merkhilfe": "sp – klingt wie schp!",
+      "beispiele": [
+        "Spinne",
+        "Sport",
+        "spielen",
+        "Sparschwein",
+        "Spielzeug",
+        "Spaten",
+        "Specht",
+        "Spatz",
+        "Spiegel"
+      ]
+    },
+    {
+      "grapheme": "st",
+      "laut": "scht (am Wortanfang)",
+      "merkhilfe": "st – klingt wie scht!",
+      "beispiele": [
+        "Stern",
+        "Stein",
+        "Stuhl",
+        "Straße",
+        "Stiefel",
+        "Stift",
+        "Nest",
+        "Wurst",
+        "Storch"
+      ]
+    },
+    {
+      "grapheme": "pf",
+      "laut": "pf",
+      "merkhilfe": "pf – Lippen zu und dann: pf!",
+      "beispiele": [
+        "Pferd",
+        "Apfel",
+        "Pfanne",
+        "Kopf",
+        "Pflaume",
+        "Pfote",
+        "Topf",
+        "Pfau",
+        "Pfeil"
+      ]
+    },
+    {
+      "grapheme": "ck",
+      "laut": "k (kurzer Vokal davor)",
+      "merkhilfe": "ck – ein kurzes, hartes k.",
+      "beispiele": [
+        "Zucker",
+        "Jacke",
+        "Ecke",
+        "Socke",
+        "Glocke",
+        "Brücke",
+        "Wecker",
+        "Decke",
+        "Rucksack"
+      ]
+    },
+    {
+      "grapheme": "tz",
+      "laut": "ts (kurzer Vokal davor)",
+      "merkhilfe": "tz – ein kurzes ts.",
+      "beispiele": [
+        "Katze",
+        "Mütze",
+        "Blitz",
+        "Platz",
+        "Schatz",
+        "Netz",
+        "Klotz",
+        "Glatze"
+      ]
+    },
+    {
+      "grapheme": "ng",
+      "laut": "ng (nasal, wie in Ring)",
+      "merkhilfe": "ng – summt durch die Nase: nng.",
+      "beispiele": [
+        "Finger",
+        "Ring",
+        "singen",
+        "lang",
+        "springen",
+        "Zunge",
+        "Angel",
+        "Zange",
+        "Schlange"
+      ]
+    },
+    {
+      "grapheme": "qu",
+      "laut": "kw",
+      "merkhilfe": "qu – wie die Ente: quak!",
+      "beispiele": [
+        "Quark",
+        "Qualle",
+        "Quelle",
+        "quaken",
+        "quietschen",
+        "Quadrat",
+        "Quirl"
+      ]
+    }
+  ],
+  "saetze": [
+    {
+      "text": "Mama und Papa.",
+      "stufe": 1
+    },
+    {
+      "text": "Die Katze ist da.",
+      "stufe": 1
+    },
+    {
+      "text": "Der Ball ist rot.",
+      "stufe": 1
+    },
+    {
+      "text": "Ich mag Eis.",
+      "stufe": 1
+    },
+    {
+      "text": "Oma hat einen Hut.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Hund läuft schnell.",
+      "stufe": 2
+    },
+    {
+      "text": "Die Ente schwimmt im See.",
+      "stufe": 2
+    },
+    {
+      "text": "Ich sehe die Sonne.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Igel schläft im Laub.",
+      "stufe": 3
+    },
+    {
+      "text": "Wir fahren mit dem Bus.",
+      "stufe": 3
+    },
+    {
+      "text": "Die Maus frisst den Käse.",
+      "stufe": 3
+    },
+    {
+      "text": "Das Schaf steht auf der Wiese.",
+      "stufe": 3
+    },
+    {
+      "text": "Der Fußball ist groß.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Fisch ist nass.",
+      "stufe": 1
+    },
+    {
+      "text": "Die Biene ist gelb.",
+      "stufe": 1
+    },
+    {
+      "text": "Das Auto ist blau.",
+      "stufe": 1
+    },
+    {
+      "text": "Der Apfel ist rot.",
+      "stufe": 1
+    },
+    {
+      "text": "Mama ist lieb.",
+      "stufe": 1
+    },
+    {
+      "text": "Ich bin froh.",
+      "stufe": 1
+    },
+    {
+      "text": "Der Stern ist hell.",
+      "stufe": 1
+    },
+    {
+      "text": "Die Kuh gibt uns Milch.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Vogel singt ein Lied.",
+      "stufe": 2
+    },
+    {
+      "text": "Wir spielen im Garten.",
+      "stufe": 2
+    },
+    {
+      "text": "Papa liest ein Buch.",
+      "stufe": 2
+    },
+    {
+      "text": "Die Banane ist krumm.",
+      "stufe": 2
+    },
+    {
+      "text": "Das Kind malt ein Bild.",
+      "stufe": 2
+    },
+    {
+      "text": "Die Zitrone ist sauer.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Apfel fällt vom Baum.",
+      "stufe": 3
+    },
+    {
+      "text": "Die Katze schläft auf dem Sofa.",
+      "stufe": 3
+    },
+    {
+      "text": "Der Ball rollt über die Wiese.",
+      "stufe": 3
+    },
+    {
+      "text": "Die Ente watschelt zum Teich.",
+      "stufe": 3
+    },
+    {
+      "text": "Der Frosch hüpft ins Wasser.",
+      "stufe": 3
+    },
+    {
+      "text": "Wir bauen einen hohen Turm.",
+      "stufe": 3
+    },
+    {
+      "text": "Die Sonne scheint am Morgen.",
+      "stufe": 3
+    },
+    {
+      "text": "Im Wald wohnt ein brauner Bär.",
+      "stufe": 4
+    },
+    {
+      "text": "Am Himmel scheint der helle Mond.",
+      "stufe": 4
+    },
+    {
+      "text": "Das Pferd rennt über die Weide.",
+      "stufe": 4
+    },
+    {
+      "text": "Meine Schwester fährt mit dem Rad.",
+      "stufe": 4
+    },
+    {
+      "text": "Der Drache steigt hoch in die Luft.",
+      "stufe": 4
+    },
+    {
+      "text": "Die Maus sucht ein Stück Käse.",
+      "stufe": 4
+    },
+    {
+      "text": "Die Sonne ist gelb.",
+      "stufe": 1
+    },
+    {
+      "text": "Der Baum ist groß.",
+      "stufe": 1
+    },
+    {
+      "text": "Das Eis ist kalt.",
+      "stufe": 1
+    },
+    {
+      "text": "Die Blume ist rot.",
+      "stufe": 1
+    },
+    {
+      "text": "Das Kind lacht.",
+      "stufe": 1
+    },
+    {
+      "text": "Der Igel ist klein.",
+      "stufe": 1
+    },
+    {
+      "text": "Das Schaf ist weiß.",
+      "stufe": 1
+    },
+    {
+      "text": "Die Maus mag Käse.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Fisch schwimmt im Wasser.",
+      "stufe": 2
+    },
+    {
+      "text": "Oma liest ein Buch.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Frosch hüpft.",
+      "stufe": 2
+    },
+    {
+      "text": "Die Ente schwimmt im Teich.",
+      "stufe": 2
+    },
+    {
+      "text": "Mama singt ein Lied.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Hund hat einen Ball.",
+      "stufe": 2
+    },
+    {
+      "text": "Die Biene summt laut.",
+      "stufe": 2
+    },
+    {
+      "text": "Der Vogel fliegt hoch am Himmel.",
+      "stufe": 3
+    },
+    {
+      "text": "Die Schnecke ist sehr langsam.",
+      "stufe": 3
+    },
+    {
+      "text": "Wir bauen einen Turm aus Steinen.",
+      "stufe": 3
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+name: Deploy Android
+
+# Manuell ausloesbar UND als wiederverwendbarer Schritt aus dem Release-Workflow.
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  deploy-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Google Play Service-Account-Key ablegen
+        run: echo "${{ secrets.PLAY_STORE_JSON_KEY }}" | base64 -d > android/fastlane/api_key.json
+
+      - name: Upload-Keystore ablegen
+        run: |
+          mkdir -p android/app/keystore
+          echo "${{ secrets.ANDROID_SIGNING_KEY }}" | base64 -d > android/app/keystore/upload-keystore.jks
+
+      - name: key.properties schreiben
+        run: |
+          cd android
+          cat > key.properties <<EOF
+          storePassword=${{ secrets.STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=keystore/upload-keystore.jks
+          EOF
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Setup Ruby (Fastlane)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+          working-directory: android
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.41.7"
+          channel: "stable"
+          cache: true
+
+      - name: Setup project
+        run: |
+          flutter pub get
+          dart run build_runner build --delete-conflicting-outputs
+
+      - name: App Bundle bauen (signiert)
+        run: flutter build appbundle --release
+
+      - name: Zu Google Play (internal) hochladen
+        run: |
+          cd android
+          bundle exec fastlane deploy

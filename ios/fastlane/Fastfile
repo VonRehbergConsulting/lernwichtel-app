@@ -1,0 +1,119 @@
+default_platform(:ios)
+
+KEYCHAIN_NAME = ENV["KEYCHAIN_NAME"] || "fastlane_keychain"
+KEYCHAIN_PASSWORD = ENV["KEYCHAIN_PASSWORD"] || "temp_keychain_password"
+
+APP_STORE_CONNECT_KEY_ID = ENV["APP_STORE_CONNECT_KEY_ID"]
+APP_STORE_CONNECT_ISSUER_ID = ENV["APP_STORE_CONNECT_ISSUER_ID"]
+APP_STORE_CONNECT_KEY_CONTENT = ENV["APP_STORE_CONNECT_KEY_CONTENT"]
+
+IOS_APP_IDENTIFIER = ENV["IOS_APP_IDENTIFIER"] || "app.lernwichtel"
+TEAM_ID = ENV["TEAM_ID"] || ENV["APPLE_TEAM_ID"] || "383J7R89WY"
+
+def delete_temp_keychain(name)
+  delete_keychain(name: name) if File.exist?(File.expand_path("~/Library/Keychains/#{name}-db"))
+end
+
+def create_temp_keychain(name, password)
+  delete_temp_keychain(name)
+  create_keychain(
+    name: name,
+    password: password,
+    unlock: true,
+    timeout: 0,
+    lock_when_sleeps: false,
+    add_to_search_list: true,
+    default_keychain: true
+  )
+end
+
+platform :ios do
+  desc "Abgelaufene Zertifikate/Profile erneuern (schreibend – lokal ausfuehren)"
+  lane :renew_certs do
+    ensure_env!
+    api_key = asc_api_key
+    match_nuke(type: "appstore", api_key: api_key, skip_confirmation: true)
+    match(
+      type: "appstore",
+      app_identifier: [IOS_APP_IDENTIFIER],
+      readonly: false,
+      api_key: api_key
+    )
+  end
+
+  desc "Release-Build bauen und zu TestFlight hochladen"
+  lane :build_and_deploy do |options|
+    ensure_env!
+
+    if ENV["CI"]
+      create_keychain(
+        name: KEYCHAIN_NAME,
+        password: KEYCHAIN_PASSWORD,
+        default_keychain: true,
+        unlock: true,
+        timeout: 3600,
+        lock_when_sleeps: false
+      )
+    end
+
+    api_key = asc_api_key
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: "Runner",
+      profile_name: "match AppStore #{IOS_APP_IDENTIFIER}",
+      bundle_identifier: IOS_APP_IDENTIFIER,
+      code_sign_identity: "iPhone Distribution",
+      team_id: TEAM_ID
+    )
+
+    match_readonly = ENV.key?("MATCH_READONLY") ? ENV["MATCH_READONLY"].to_s.downcase != "false" : true
+    match(
+      type: "appstore",
+      app_identifier: [IOS_APP_IDENTIFIER],
+      readonly: match_readonly,
+      keychain_name: ENV["CI"] ? KEYCHAIN_NAME : "login.keychain",
+      keychain_password: ENV["CI"] ? KEYCHAIN_PASSWORD : nil,
+      api_key: api_key
+    )
+
+    cocoapods(clean_install: true, repo_update: true)
+
+    gym(
+      configuration: "Release",
+      scheme: "Runner",
+      workspace: "Runner.xcworkspace",
+      export_method: "app-store",
+      clean: true,
+      export_options: {
+        provisioningProfiles: {
+          IOS_APP_IDENTIFIER => "match AppStore #{IOS_APP_IDENTIFIER}"
+        }
+      }
+    )
+
+    unless options.fetch(:skip_deploy, false)
+      pilot(api_key: api_key, skip_waiting_for_build_processing: true)
+    end
+  end
+
+  after_all { delete_temp_keychain(KEYCHAIN_NAME) }
+  error { delete_temp_keychain(KEYCHAIN_NAME) }
+end
+
+def ensure_env!
+  required = ["APP_STORE_CONNECT_KEY_ID", "APP_STORE_CONNECT_ISSUER_ID", "APP_STORE_CONNECT_KEY_CONTENT"]
+  missing = required.select { |v| ENV[v].nil? || ENV[v].empty? }
+  UI.user_error!("Fehlende Umgebungsvariablen: #{missing.join(', ')}") unless missing.empty?
+end
+
+def asc_api_key
+  app_store_connect_api_key(
+    key_id: APP_STORE_CONNECT_KEY_ID,
+    issuer_id: APP_STORE_CONNECT_ISSUER_ID,
+    key_content: APP_STORE_CONNECT_KEY_CONTENT,
+    is_key_content_base64: true,
+    duration: 1200,
+    in_house: false
+  )
+end

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datenschutz · Lernwichtel</title>
+  <meta name="description" content="Datenschutzerklärung der Lernwichtel-App: Sie funktioniert vollständig offline – keine Datenerhebung, kein Tracking, keine Werbung. Alle Daten bleiben auf dem Gerät.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <meta name="robots" content="index, follow">
+  <style>
+    :root {
+      --bg:        #F7EEDA;
+      --surface:   #FCF6EA;
+      --paper:     #FFFDF8;
+      --text:      #2C2117;
+      --text-soft: #6F6152;
+      --line:      #E7DAC3;
+      --red:       #D9482C;
+      --red-deep:  #BC3A1F;
+      --blue:      #3E7DA6;
+      --blue-deep: #2F6288;
+      --yellow:    #E7A92E;
+      --peach:     #F4D3B4;
+      --radius:    18px;
+      --radius-lg: 26px;
+      --shadow-sm: 0 6px 18px -12px rgba(60, 40, 22, .45);
+      --font-display: "SF Pro Rounded", ui-rounded, "Baloo 2", "Hiragino Maru Gothic ProN",
+        "Segoe UI", system-ui, sans-serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+      --maxw: 820px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:#211912; --surface:#2A2118; --paper:#302619; --text:#F3E9D7; --text-soft:#BDAD98;
+        --line:#3C3026; --red:#E85E42; --red-deep:#E2482A; --blue:#5FA0C8; --blue-deep:#4C8FBA;
+        --yellow:#EEB84C; --peach:#E4BE97;
+        --shadow-sm: 0 6px 18px -12px rgba(0, 0, 0, .6);
+      }
+    }
+    :root[data-theme="light"] {
+      --bg:#F7EEDA; --surface:#FCF6EA; --paper:#FFFDF8; --text:#2C2117; --text-soft:#6F6152;
+      --line:#E7DAC3; --red:#D9482C; --red-deep:#BC3A1F; --blue:#3E7DA6; --blue-deep:#2F6288;
+      --yellow:#E7A92E; --peach:#F4D3B4;
+      --shadow-sm: 0 6px 18px -12px rgba(60,40,22,.45);
+    }
+    :root[data-theme="dark"] {
+      --bg:#211912; --surface:#2A2118; --paper:#302619; --text:#F3E9D7; --text-soft:#BDAD98;
+      --line:#3C3026; --red:#E85E42; --red-deep:#E2482A; --blue:#5FA0C8; --blue-deep:#4C8FBA;
+      --yellow:#EEB84C; --peach:#E4BE97;
+      --shadow-sm: 0 6px 18px -12px rgba(0,0,0,.6);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: var(--font-body); font-size: 18px; line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--red-deep); }
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 30;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(10px) saturate(1.2);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; gap: 16px; height: 70px; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+    .wordmark {
+      display: inline-flex; align-items: center; gap: 11px;
+      font-family: var(--font-display); font-weight: 700; font-size: 1.28rem;
+      text-decoration: none; color: var(--text);
+    }
+    .wordmark .mark {
+      width: 40px; height: 40px; flex: none;
+      border: 1px solid var(--line); border-radius: 11px; background: var(--peach);
+      overflow: hidden; display: grid; place-items: center;
+    }
+    .wordmark .mark img { width: 118%; height: 118%; object-fit: contain; margin-top: 5px; }
+    .nav-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+    .nav-right a {
+      text-decoration: none; color: var(--text-soft); font-weight: 600; font-size: .95rem;
+      padding: 8px 13px; border-radius: 10px;
+    }
+    .nav-right a:hover { color: var(--text); background: var(--surface); }
+    .icon-btn {
+      width: 42px; height: 42px; flex: none; display: grid; place-items: center;
+      border: 1px solid var(--line); border-radius: 11px; background: var(--paper);
+      color: var(--text); cursor: pointer;
+    }
+    .icon-btn:hover { border-color: var(--red); }
+    .icon-btn svg { width: 20px; height: 20px; }
+    .icon-btn .moon { display: none; }
+    :root[data-theme="dark"] .icon-btn .sun { display: none; }
+    :root[data-theme="dark"] .icon-btn .moon { display: block; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .icon-btn .sun { display: none; }
+      :root:not([data-theme="light"]) .icon-btn .moon { display: block; }
+    }
+
+    /* Inhalt */
+    main { padding: clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 88px); }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-weight: 700; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red-deep); margin: 0 0 14px;
+    }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; border-radius: 2px; background: var(--red-deep); opacity: .55; }
+    h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1.08; margin: 0 0 8px; text-wrap: balance; }
+    .lede { font-size: 1.12rem; color: var(--text-soft); margin: 0 0 8px; }
+    h2 { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; margin: 40px 0 10px; }
+    p { margin: 0 0 14px; }
+    ul { margin: 0 0 14px; padding-left: 22px; }
+    li { margin: 6px 0; }
+    .muted { color: var(--text-soft); }
+
+    /* Kurzfassungs-Karte */
+    .summary {
+      background: color-mix(in srgb, var(--blue) 8%, var(--surface));
+      border: 1px solid var(--line); border-radius: var(--radius-lg);
+      padding: 24px 26px; box-shadow: var(--shadow-sm); margin: 26px 0 8px;
+    }
+    .summary p { margin: 0; font-size: 1.05rem; }
+    .summary strong { color: var(--text); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .86rem; font-weight: 700;
+      background: var(--paper); border: 1px solid var(--line);
+      padding: 5px 12px; border-radius: 999px;
+    }
+    .chip svg { width: 14px; height: 14px; color: var(--red); }
+
+    .placeholder-tag {
+      color: var(--red-deep); background: color-mix(in srgb, var(--red) 10%, var(--surface));
+      padding: 1px 7px; border-radius: 6px; font-size: .82em; font-weight: 600; white-space: nowrap;
+    }
+    address { font-style: normal; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--line); background: var(--surface); }
+    .foot { max-width: var(--maxw); margin: 0 auto; padding: 30px 24px 40px; display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; color: var(--text-soft); font-size: .9rem; }
+    .foot a { color: var(--text-soft); text-decoration: none; }
+    .foot a:hover { color: var(--red-deep); }
+    .foot .sep { opacity: .5; }
+
+    :focus-visible { outline: 3px solid var(--red); outline-offset: 3px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="wordmark" href="./index.html">
+      <span class="mark" aria-hidden="true"><img src="./assets/lernwichtel.png" alt=""></span>
+      Lernwichtel
+    </a>
+    <div class="nav-right">
+      <a href="./index.html">← Zur Startseite</a>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Farbschema wechseln">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <p class="eyebrow">Rechtliches</p>
+    <h1>Datenschutzerklärung</h1>
+    <p class="lede">für die App <strong>Lernwichtel</strong></p>
+
+    <div class="summary">
+      <p><strong>Kurz gesagt:</strong> Lernwichtel funktioniert vollständig offline.
+      Wir erheben, speichern und übertragen <strong>keine</strong> personenbezogenen
+      Daten. Alle Eingaben, Lernfortschritte und Fotos bleiben ausschließlich auf
+      eurem Gerät – ohne Konto, ohne Werbung, ohne Tracking, ohne Analyse.</p>
+      <div class="chips">
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Keine Datenerhebung</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Kein Tracking</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Keine Werbung</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Offline</span>
+      </div>
+    </div>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>Verantwortlich im Sinne der Datenschutz-Grundverordnung (DSGVO):</p>
+    <address class="muted">
+      Von Rehberg Consulting GmbH<br>
+      Puschkinstraße 25, 06108 Halle (Saale), Deutschland<br>
+      Vertreten durch: Christian Jeschke (Geschäftsführer)<br>
+      E-Mail: <a href="mailto:cjeschke@vonrehberg.consulting">cjeschke@vonrehberg.consulting</a>
+    </address>
+
+    <h2>2. Grundsatz: alles bleibt auf dem Gerät</h2>
+    <p>Lernwichtel ist eine reine Offline-App. Es gibt <strong>keinen Server, kein
+    Nutzerkonto und keine Cloud-Synchronisation</strong>. Sämtliche in der App
+    entstehenden Daten werden ausschließlich lokal auf dem Gerät gespeichert und
+    verlassen dieses nicht. Wir als Anbieter erhalten davon nichts und haben
+    keinen Zugriff darauf.</p>
+
+    <h2>3. Welche Daten lokal gespeichert werden</h2>
+    <ul>
+      <li><strong>Kinderprofile</strong> – der von euch vergebene Name und der gewählte Avatar.</li>
+      <li><strong>Lernfortschritt</strong> – z. B. welche Buchstaben, Silben oder Zahlen schon geübt wurden.</li>
+      <li><strong>Fotos der „Laut-Schatzsuche"</strong> – selbst aufgenommene Bilder, die ihr behalten möchtet (siehe Punkt 4).</li>
+    </ul>
+    <p>Diese Daten liegen in einer lokalen Datenbank bzw. im App-Speicher auf dem
+    Gerät. Sie werden nicht an uns oder Dritte übermittelt.</p>
+
+    <h2>4. Kamera &amp; Fotos</h2>
+    <p>Damit Kind und Eltern bei der „Laut-Schatzsuche" Gegenstände fotografieren
+    können, kann die App auf die <strong>Kamera</strong> zugreifen (und optional auf die
+    Fotoauswahl, um ein vorhandenes Bild zu wählen). Die Aufnahme geschieht nur auf
+    eure ausdrückliche Aktion hin.</p>
+    <p>Behaltene Fotos werden <strong>ausschließlich lokal</strong> gespeichert, nicht
+    hochgeladen und nicht weitergegeben. Ihr könnt sie jederzeit in der App wieder
+    löschen. Beim Löschen eines Kindes bzw. beim Deinstallieren der App werden die
+    zugehörigen Fotos vom Gerät entfernt.</p>
+
+    <h2>5. Keine Weitergabe, kein Tracking, keine Analyse</h2>
+    <p>Lernwichtel enthält <strong>keine</strong> Werbung, keine Analyse- oder
+    Tracking-Dienste und keine Drittanbieter-SDKs zur Datenerfassung. Es werden
+    keine Standort-, Nutzungs- oder Gerätedaten erhoben und keine Daten an Dritte
+    weitergegeben.</p>
+
+    <h2>6. Schutz des Eltern-Bereichs (Geräte-Authentifizierung)</h2>
+    <p>Zum Schutz des Eltern-Bereichs kann eine Authentifizierung des Geräts genutzt
+    werden (z. B. Face ID, Touch ID oder Gerätecode). Diese wird vollständig vom
+    Betriebssystem verwaltet; die App erhält lediglich die Rückmeldung
+    „erfolgreich" oder „nicht erfolgreich" und speichert <strong>keine biometrischen
+    Daten</strong>.</p>
+
+    <h2>7. App-Berechtigungen</h2>
+    <ul>
+      <li><strong>Kamera</strong> – optional, ausschließlich für die Foto-Schatzsuche.</li>
+      <li><strong>Fotos/Medien</strong> – optional, falls ihr ein bereits vorhandenes Bild auswählt.</li>
+    </ul>
+    <p class="muted">Ohne diese Berechtigungen lässt sich die App bis auf die
+    Foto-Funktion normal nutzen.</p>
+
+    <h2>8. Kinder</h2>
+    <p>Lernwichtel ist als Begleit-App für Eltern gedacht – Kinder nutzen sie
+    zusammen mit einer erwachsenen Bezugsperson. Da die App keinerlei Daten erhebt
+    oder übermittelt, werden auch <strong>keine personenbezogenen Daten von Kindern
+    verarbeitet</strong> oder an Dritte weitergegeben.</p>
+
+    <h2>9. Eure Rechte &amp; Löschung</h2>
+    <p>Da wir keine personenbezogenen Daten über euch erheben oder verarbeiten,
+    liegen uns keine Daten vor, zu denen wir Auskunft geben oder die wir löschen
+    könnten. Die auf dem Gerät gespeicherten Daten habt ihr jederzeit selbst in der
+    Hand:</p>
+    <ul>
+      <li>Kinderprofile lassen sich direkt in der App löschen (samt Fortschritt und Fotos).</li>
+      <li>Beim <strong>Deinstallieren</strong> der App werden alle lokal gespeicherten Daten entfernt.</li>
+    </ul>
+    <p>Unabhängig davon stehen euch nach der DSGVO die Rechte auf Auskunft,
+    Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch zu.
+    Für Fragen erreicht ihr uns unter der oben genannten Adresse. Zudem besteht ein
+    Beschwerderecht bei einer Datenschutz-Aufsichtsbehörde.</p>
+
+    <h2>10. Bezug über die App-Stores</h2>
+    <p>Der Download der App erfolgt über den <strong>Apple App Store</strong> bzw.
+    <strong>Google Play</strong>. Für Download, Zahlungsabwicklung und die dabei
+    verarbeiteten Daten gelten die Datenschutzbestimmungen von Apple bzw. Google;
+    darauf haben wir keinen Einfluss.</p>
+
+    <h2>11. Stand &amp; Änderungen</h2>
+    <p class="muted">Stand: Juli 2026. Ändert sich die App in einer Weise, die den
+    Datenschutz betrifft, aktualisieren wir diese Erklärung entsprechend.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>© <span id="year">2026</span> Von Rehberg Consulting GmbH · Lernwichtel</span>
+    <span class="sep">·</span>
+    <a href="./index.html">Startseite</a>
+    <span class="sep">·</span>
+    <a href="./index.html#impressum">Impressum</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    btn.addEventListener('click', function () {
+      var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var current = root.getAttribute('data-theme') || (isDark ? 'dark' : 'light');
+      root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+    try { document.getElementById('year').textContent = new Date().getFullYear(); } catch (e) {}
+  })();
+</script>
+</body>
+</html>
