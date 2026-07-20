@@ -13,7 +13,6 @@ Future<bool> confirmParent(BuildContext context) async {
     if (await auth.isDeviceSupported()) {
       final ok = await auth.authenticate(
         localizedReason: 'Bitte bestätige, dass du ein Elternteil bist.',
-        biometricOnly: false, // Geraetecode als Fallback zulassen
         persistAcrossBackgrounding: true,
       );
       if (ok) return true;

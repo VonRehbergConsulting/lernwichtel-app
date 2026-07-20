@@ -6,6 +6,7 @@ import '../../../data/db/database.dart';
 import '../../../data/repositories/content_repository.dart';
 import '../../../data/repositories/reading_repository.dart';
 import 'letter_tracer.dart';
+import 'tracer_fullscreen.dart';
 
 /// Schreib-Modul: Buchstaben mit Finger oder Stift nachfahren. Die App prüft
 /// automatisch beim Absetzen und meldet nur den Erfolg (adaptiv nach Lernstand).
@@ -78,12 +79,12 @@ class _WritingPageState extends State<WritingPage> {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        content: Column(
+        content: const Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const MenuIcon(id: 'feier_stern', emoji: '🌟', size: 64),
-            const SizedBox(height: 12),
-            const Text('Schön geschrieben!',
+            MenuIcon(id: 'feier_stern', emoji: '🌟', size: 64),
+            SizedBox(height: 12),
+            Text('Schön geschrieben!',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
           ],
         ),
@@ -111,7 +112,22 @@ class _WritingPageState extends State<WritingPage> {
   Widget build(BuildContext context) {
     final selected = _selected;
     return Scaffold(
-      appBar: AppBar(title: Text('Schreiben · ${widget.child.name}')),
+      appBar: AppBar(
+        title: Text('Schreiben · ${widget.child.name}'),
+        actions: [
+          IconButton(
+            tooltip: 'Groß malen (quer)',
+            icon: const Icon(Icons.fullscreen_rounded),
+            onPressed: selected == null
+                ? null
+                : () => openTracerFullscreen(
+                      context,
+                      glyph: selected.symbol,
+                      box: _box,
+                    ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: (_loading || selected == null)
             ? const Center(child: CircularProgressIndicator())

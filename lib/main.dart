@@ -8,13 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/app_bloc_observer.dart';
 import 'core/app_info.dart';
 import 'core/di/service_locator.dart';
+import 'core/orientation_lock.dart';
+import 'core/responsive.dart';
 import 'core/theme/app_theme.dart';
-import 'core/widgets/responsive_scaler.dart';
 import 'features/onboarding/root_page.dart';
 
 Future<void> main() async {
   // Alle (auch asynchronen) Fehler landen zentral im Log.
-  runZonedGuarded(
+  unawaited(runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
@@ -26,18 +27,28 @@ Future<void> main() async {
       };
       Bloc.observer = const AppBlocObserver();
 
-      // Tablet-App: Querformat ist die primaere Ausrichtung.
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
+      // Ausrichtung pro Geraeteklasse: Handy=Hochformat, Tablet=Querformat.
+      // Hier nur ein Best-Effort-Startwert aus der physischen Bildschirmgroesse
+      // (gegen Flackern beim Start); die endgueltige Sperre uebernimmt reaktiv
+      // OrientationLock, sobald eine MediaQuery vorliegt. Ist die Groesse noch
+      // unbekannt (0), starten wir tablet-first im Querformat.
+      final view = WidgetsBinding.instance.platformDispatcher.views.first;
+      final shortestSide =
+          view.physicalSize.shortestSide / view.devicePixelRatio;
+      // Bei noch unbekannter Groesse (0) tablet-first (Querformat), damit auf
+      // Tablets kein kurzes Hochformat aufblitzt.
+      final startsAsTablet =
+          shortestSide == 0 || shortestSide >= Breakpoints.tabletShortestSide;
+      await SystemChrome.setPreferredOrientations(
+        preferredOrientationsFor(tablet: startsAsTablet),
+      );
 
       await setupServiceLocator();
       runApp(const EducationApp());
     },
     (error, stack) => developer.log('Unbehandelter Fehler',
         name: 'zone', error: error, stackTrace: stack),
-  );
+  ));
 }
 
 class EducationApp extends StatelessWidget {
@@ -51,9 +62,7 @@ class EducationApp extends StatelessWidget {
       theme: AppTheme.light(),
       // Bewusst immer hell/farbenfroh – unabhaengig vom Dark Mode des Geraets.
       themeMode: ThemeMode.light,
-      // Tablet-Oberflaeche auf kleineren Geraeten gleichmaessig verkleinern.
-      builder: (context, child) => ResponsiveScaler(child: child!),
-      home: const RootPage(),
+      home: const OrientationLock(child: RootPage()),
     );
   }
 }

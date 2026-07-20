@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/responsive.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../data/db/database.dart';
 import '../../../data/repositories/math_repository.dart';
@@ -54,48 +55,73 @@ class _Body extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         final bloc = context.read<MathBloc>();
+        final compact = context.isCompact;
+
+        // Aufgabe (skaliert in den freien Raum – kein Scrollen) + kurzer
+        // Feedback-Streifen darunter.
+        final problemPane = Column(
+          children: [
+            Expanded(child: _FitVisual(child: _Problem(state: state))),
+            _Feedback(state: state),
+            const SizedBox(height: 8),
+          ],
+        );
+
+        final numberPad = Padding(
+          padding: compact
+              ? const EdgeInsets.fromLTRB(16, 0, 16, 8)
+              : const EdgeInsets.fromLTRB(8, 8, 16, 8),
+          child: Center(
+            child: SizedBox(
+              width: compact ? 340 : 360,
+              child: NumberPad(
+                enabled: state.phase == MathPhase.answering,
+                onDigit: (d) => bloc.add(DigitTyped(d)),
+                onBackspace: () => bloc.add(const BackspacePressed()),
+                onSubmit: () => bloc.add(const AnswerSubmitted()),
+              ),
+            ),
+          ),
+        );
+
         return Column(
           children: [
             _LevelBar(state: state, bloc: bloc),
             Expanded(
-              // Querformat: Aufgabe links, Nummernblock rechts.
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: SingleChildScrollView(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: _Problem(state: state),
-                            ),
-                          ),
-                        ),
-                        _Feedback(state: state),
-                        const SizedBox(height: 8),
-                      ],
+              // Hochformat (Handy): Aufgabe oben, Nummernblock unten.
+              // Querformat (Tablet): Aufgabe links, Nummernblock rechts.
+              child: compact
+                  ? Column(
+                      children: [Expanded(child: problemPane), numberPad],
+                    )
+                  : Row(
+                      children: [Expanded(child: problemPane), numberPad],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-                    child: Center(
-                      child: SizedBox(
-                        width: 360,
-                        child: NumberPad(
-                          enabled: state.phase == MathPhase.answering,
-                          onDigit: (d) => bloc.add(DigitTyped(d)),
-                          onBackspace: () => bloc.add(const BackspacePressed()),
-                          onSubmit: () => bloc.add(const AnswerSubmitted()),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
+        );
+      },
+    );
+  }
+}
+
+/// Passt ein Aufgaben-Visual so an, dass es den verfügbaren Platz **ausfüllt,
+/// aber nie überläuft** – so muss man auch bei „Zahlen bis 100" oder Plus/Minus
+/// nichts scrollen. Kleine Mengen bleiben in Originalgröße (kein Hochskalieren).
+class _FitVisual extends StatelessWidget {
+  const _FitVisual({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, c) {
+        final w = c.maxWidth > 24 ? c.maxWidth - 24 : c.maxWidth;
+        return Center(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: SizedBox(width: w, child: child),
+          ),
         );
       },
     );
@@ -139,6 +165,7 @@ class _Problem extends StatelessWidget {
     switch (p.visual) {
       case MathVisual.objekte:
         return Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             ObjectsView(count: p.a!, slug: p.object),
             const SizedBox(height: 24),
@@ -149,6 +176,7 @@ class _Problem extends StatelessWidget {
         );
       case MathVisual.zehnerEiner:
         return Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             TensOnesView(value: p.a!),
             const SizedBox(height: 24),
@@ -175,11 +203,11 @@ class _EquationView extends StatelessWidget {
     const numStyle = TextStyle(fontSize: 64, fontWeight: FontWeight.w800);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (showObjects) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(
                 child: OperandObjects(count: p.a!, slug: p.object),

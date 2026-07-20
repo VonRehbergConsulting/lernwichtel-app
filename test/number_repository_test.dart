@@ -51,7 +51,7 @@ void main() {
     });
 
     test('Geschwister-Zahlen: nah, ohne Ziel, im Bereich', () async {
-      final sibs = repo.siblingNumbers(5, count: 2);
+      final sibs = repo.siblingNumbers(5);
       expect(sibs.length, 2);
       expect(sibs.contains(5), isFalse);
       expect(sibs, containsAll(<int>[4, 6]));

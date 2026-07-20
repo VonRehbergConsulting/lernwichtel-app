@@ -162,7 +162,6 @@ class MathBloc extends Bloc<MathEvent, MathState> {
         module: e.module,
         level: skill.level,
         problem: generateProblem(e.module, skill.level, _rnd, maxNumber: _cap),
-        phase: MathPhase.answering,
       ));
     } catch (err, st) {
       addError(err, st);

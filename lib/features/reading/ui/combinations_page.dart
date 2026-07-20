@@ -38,8 +38,10 @@ class CombinationsPage extends StatelessWidget {
           actions: [
             Builder(
               builder: (context) {
-                final combo =
-                    context.watch<CombinationsBloc>().state.currentCombo;
+                final combo = context
+                    .watch<CombinationsBloc>()
+                    .state
+                    .currentCombo;
                 return IconButton(
                   tooltip: 'Foto-Schatzsuche',
                   icon: const Icon(Icons.photo_camera_outlined),
@@ -48,20 +50,22 @@ class CombinationsPage extends StatelessWidget {
                       : () {
                           final l = combo.symbol.toLowerCase();
                           Navigator.of(context)
-                              .push(MaterialPageRoute(
-                                builder: (_) => SoundHuntPage(
-                                  sound: l,
-                                  letter: l,
-                                  childId: child.id,
+                              .push(
+                                MaterialPageRoute(
+                                  builder: (_) => SoundHuntPage(
+                                    sound: l,
+                                    letter: l,
+                                    childId: child.id,
+                                  ),
                                 ),
-                              ))
+                              )
                               .then((_) {
-                            if (context.mounted) {
-                              context
-                                  .read<CombinationsBloc>()
-                                  .add(CombinationsStarted(child.id));
-                            }
-                          });
+                                if (context.mounted) {
+                                  context.read<CombinationsBloc>().add(
+                                    CombinationsStarted(child.id),
+                                  );
+                                }
+                              });
                         },
                 );
               },
@@ -70,9 +74,9 @@ class CombinationsPage extends StatelessWidget {
               builder: (context) => IconButton(
                 tooltip: 'Neue Runde',
                 icon: const Icon(Icons.refresh),
-                onPressed: () => context
-                    .read<CombinationsBloc>()
-                    .add(const NewComboRoundRequested()),
+                onPressed: () => context.read<CombinationsBloc>().add(
+                  const NewComboRoundRequested(),
+                ),
               ),
             ),
           ],
@@ -96,14 +100,16 @@ class _Body extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           case CombinationsStatus.error:
             return ErrorView(
-              onRetry: () => context
-                  .read<CombinationsBloc>()
-                  .add(CombinationsStarted(childId)),
+              onRetry: () => context.read<CombinationsBloc>().add(
+                CombinationsStarted(childId),
+              ),
             );
           case CombinationsStatus.empty:
             return const Center(
-              child: Text('Keine Lautverbindungen vorhanden.',
-                  style: TextStyle(fontSize: 20)),
+              child: Text(
+                'Keine Lautverbindungen vorhanden.',
+                style: TextStyle(fontSize: 20),
+              ),
             );
           case CombinationsStatus.ready:
             return _Exercise(state: state, childId: childId);
@@ -129,8 +135,10 @@ class _Exercise extends StatelessWidget {
         Column(
           children: [
             const SizedBox(height: 8),
-            Text('${state.index + 1} / ${state.combos.length}',
-                style: Theme.of(context).textTheme.labelLarge),
+            Text(
+              '${state.index + 1} / ${state.combos.length}',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
@@ -140,15 +148,13 @@ class _Exercise extends StatelessWidget {
                       _ComboTile(
                         symbol: combo.symbol,
                         mastered: state.isMastered,
-                        onTap: () =>
-                            bloc.add(const ComboSoundRequested()),
+                        onTap: () => bloc.add(const ComboSoundRequested()),
                         onLongPress: () => bloc.add(const ComboMastered()),
                       ),
                       if (combo.merkhilfe != null) ...[
                         const SizedBox(height: 16),
                         Padding(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 24),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: Text(
                             combo.merkhilfe!,
                             textAlign: TextAlign.center,
@@ -160,19 +166,19 @@ class _Exercise extends StatelessWidget {
                           ),
                         ),
                       ],
-                      FundstueckeStrip(
-                          childId: childId, letter: combo.symbol),
+                      FundstueckeStrip(childId: childId, letter: combo.symbol),
                       const SizedBox(height: 28),
                       if (example != null)
                         _ExampleWord(
                           word: example.word.word,
                           highlight: combo.symbol,
-                          onTap: () =>
-                              bloc.add(const ExampleSpeakRequested()),
+                          onTap: () => bloc.add(const ExampleSpeakRequested()),
                         )
                       else
-                        const Text('Kein Beispielwort',
-                            style: TextStyle(fontSize: 18)),
+                        const Text(
+                          'Kein Beispielwort',
+                          style: TextStyle(fontSize: 18),
+                        ),
                       if (state.examples.length > 1)
                         TextButton.icon(
                           onPressed: () =>
@@ -277,15 +283,22 @@ class _ExampleWord extends StatelessWidget {
       if (at > 0) {
         spans.add(TextSpan(text: lower.substring(0, at), style: base));
       }
-      spans.add(TextSpan(
-          text: lower.substring(at, at + needle.length), style: accent));
       spans.add(
-          TextSpan(text: lower.substring(at + needle.length), style: base));
+        TextSpan(text: lower.substring(at, at + needle.length), style: accent),
+      );
+      spans.add(
+        TextSpan(text: lower.substring(at + needle.length), style: base),
+      );
     }
 
     return GestureDetector(
       onTap: onTap,
-      child: Text.rich(TextSpan(children: spans)),
+      // Lange Wörter (z. B. „Schmetterling") schrumpfen auf die Breite, statt
+      // seitlich überzulaufen.
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text.rich(TextSpan(children: spans)),
+      ),
     );
   }
 }

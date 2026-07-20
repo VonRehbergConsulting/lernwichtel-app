@@ -58,6 +58,8 @@ class _ChildCreateWizardState extends State<ChildCreateWizard> {
 
   Future<void> _loadLetters() async {
     final letters = await _content.graphemesByKind('buchstabe');
+    // Für Eltern alphabetisch (statt didaktischer sortOrder) – leichter zu finden.
+    letters.sort((a, b) => a.symbol.toLowerCase().compareTo(b.symbol.toLowerCase()));
     if (!mounted) return;
     setState(() => _letters = letters);
   }

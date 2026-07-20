@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/responsive.dart';
 import '../../../core/theme/tile_style.dart';
+import '../../../core/widgets/adaptive_home_layout.dart';
 import '../../../core/widgets/locked_hint.dart';
 import '../../../core/widgets/menu_icon.dart';
 import '../../../core/widgets/menu_tile.dart';
@@ -65,37 +67,31 @@ class _ReadingHomePageState extends State<ReadingHomePage> {
   @override
   Widget build(BuildContext context) {
     final unlocked = _unlocked;
-    return Scaffold(
-      appBar: AppBar(title: Text('Lesen · ${widget.child.name}')),
-      body: SafeArea(
-        child: unlocked == null
-            ? const Center(child: CircularProgressIndicator())
-            : Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    GuidedLessonCard(
-                      iconId: 'lese_lektion',
-                      subtitle: 'Den nächsten Laut gemeinsam einführen',
-                      onTap: () => Navigator.of(context)
-                          .push(MaterialPageRoute(
-                            builder: (_) =>
-                                GuidedSessionPage(child: widget.child),
-                          ))
-                          .then((_) => _load()),
-                    ),
-                    const SizedBox(height: 12),
-                    _MyNameBanner(
-                        key: ValueKey(_nameTick), child: widget.child),
-                    _FundstueckeBanner(
-                        key: ValueKey('fund_$_nameTick'), child: widget.child),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 20,
-                        crossAxisSpacing: 20,
-                        children: [
+    final Widget content;
+    if (unlocked == null) {
+      content = const Center(child: CircularProgressIndicator());
+    } else {
+      final compact = context.isCompact;
+      final lesson = GuidedLessonCard(
+        iconId: 'lese_lektion',
+        subtitle: 'Den nächsten Laut gemeinsam einführen',
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(
+              builder: (_) => GuidedSessionPage(child: widget.child),
+            ))
+            .then((_) => _load()),
+      );
+      final topBanners = <Widget>[
+        _MyNameBanner(key: ValueKey(_nameTick), child: widget.child),
+        _FundstueckeBanner(
+            key: ValueKey('fund_$_nameTick'), child: widget.child),
+      ];
+      final grid = GridView.count(
+        // Handy (hoch): 2 große Kacheln nebeneinander; Tablet: 3.
+        crossAxisCount: compact ? 2 : 3,
+        mainAxisSpacing: compact ? 12 : 20,
+        crossAxisSpacing: compact ? 12 : 20,
+        children: [
                           MenuTile(
                             label: 'Buchstaben',
                             iconId: 'lese_buchstaben',
@@ -170,13 +166,18 @@ class _ReadingHomePageState extends State<ReadingHomePage> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
+        ],
+      );
+
+      content = AdaptiveHomeLayout(
+        sidebar: [lesson, const SizedBox(height: 10), ...topBanners],
+        grid: grid,
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Lesen · ${widget.child.name}')),
+      body: SafeArea(child: content),
     );
   }
 }
@@ -289,7 +290,7 @@ class _MyNameBannerState extends State<_MyNameBanner> {
         padding: const EdgeInsets.only(bottom: 12),
         child: DecoratedBox(
           decoration:
-              TileStyle.surface(const Color(0xFFFFC24D), radius: 24, depth: 1.1),
+              TileStyle.surface(const Color(0xFFFFC24D), depth: 1.1),
           child: Material(
             type: MaterialType.transparency,
             child: InkWell(
@@ -348,7 +349,7 @@ class _MyNameBannerState extends State<_MyNameBanner> {
       padding: const EdgeInsets.only(bottom: 12),
       child: DecoratedBox(
         decoration:
-            TileStyle.surface(const Color(0xFFFFE0B2), radius: 24, depth: 0.7),
+            TileStyle.surface(const Color(0xFFFFE0B2), depth: 0.7),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           child: Row(

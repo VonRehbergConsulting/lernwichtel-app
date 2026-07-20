@@ -49,8 +49,10 @@ class _Body extends StatelessWidget {
             );
           case SentencesStatus.empty:
             return const Center(
-              child: Text('Keine Sätze vorhanden.',
-                  style: TextStyle(fontSize: 20)),
+              child: Text(
+                'Keine Sätze vorhanden.',
+                style: TextStyle(fontSize: 20),
+              ),
             );
           case SentencesStatus.ready:
             return _Exercise(state: state);
@@ -72,8 +74,10 @@ class _Exercise extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 8),
-        Text('${state.index + 1} / ${state.revealed}',
-            style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          '${state.index + 1} / ${state.revealed}',
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         Expanded(
           child: Center(
             child: SingleChildScrollView(
@@ -140,20 +144,29 @@ class _WordChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Sehr lange Wörter dürfen die Bildschirmbreite nicht überschreiten:
+    // Chip auf die Breite deckeln, Wort ggf. herunterskalieren (nie umbrechen).
+    final maxWidth = MediaQuery.sizeOf(context).width - 48;
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: const Color(0xFFA5D6A7),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Text(
-          word,
-          style: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            color: const Color(0xFFA5D6A7),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              word,
+              style: const TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+              ),
+            ),
           ),
         ),
       ),

@@ -44,6 +44,8 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
 
   Future<void> _load() async {
     final letters = await _content.graphemesByKind('buchstabe');
+    // Für Eltern alphabetisch (statt didaktischer sortOrder) – leichter zu finden.
+    letters.sort((a, b) => a.symbol.toLowerCase().compareTo(b.symbol.toLowerCase()));
     final progress = await _reading.progressFor(widget.child.id);
     final numberProgress = await _numbers.progressFor(widget.child.id);
     final manual = await _gate.manualUnlocks(widget.child.id);
@@ -80,6 +82,28 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
     }
     setState(() => _manualUnlocks = next);
     await _gate.setManualUnlock(widget.child.id, key, value);
+  }
+
+  /// Chip zum Abhaken „beherrscht". Das Häkchen sitzt in einem **immer**
+  /// vorhandenen Avatar-Slot (leerer Kreis, wenn nicht gewählt) – so bleibt die
+  /// Chip-Breite beim An-/Abhaken konstant. Das eingebaute Häkchen ist deshalb
+  /// aus.
+  Widget _masteryChip({
+    required String label,
+    required bool selected,
+    required ValueChanged<bool> onSelected,
+  }) {
+    return FilterChip(
+      showCheckmark: false,
+      avatar: Icon(
+        selected ? Icons.check_circle : Icons.circle_outlined,
+        size: 20,
+        color: selected ? const Color(0xFF2E7D32) : Colors.black26,
+      ),
+      label: Text(label, style: const TextStyle(fontSize: 20)),
+      selected: selected,
+      onSelected: onSelected,
+    );
   }
 
   Widget _sectionGroup(String title, LearningTrack track) {
@@ -216,9 +240,8 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
                     runSpacing: 8,
                     children: [
                       for (final g in _letters)
-                        FilterChip(
-                          label: Text(g.symbol,
-                              style: const TextStyle(fontSize: 20)),
+                        _masteryChip(
+                          label: g.symbol,
                           selected: _mastered.contains(g.id),
                           onSelected: (v) => _toggle(g, v),
                         ),
@@ -238,9 +261,8 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
                     runSpacing: 8,
                     children: [
                       for (var n = 1; n <= NumberRepository.maxNumber; n++)
-                        FilterChip(
-                          label: Text('$n',
-                              style: const TextStyle(fontSize: 20)),
+                        _masteryChip(
+                          label: '$n',
                           selected: _masteredNumbers.contains(n),
                           onSelected: (v) => _toggleNumber(n, v),
                         ),

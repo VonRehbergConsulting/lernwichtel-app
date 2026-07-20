@@ -213,6 +213,52 @@ In-Memory-SQLite-DB (`AppDatabase.forTesting(NativeDatabase.memory())`).
 
 ## Architektur-Notizen
 
+### State-Management: BLoC *und* `setState` – bewusst gemischt
+
+Die App nutzt zwei Muster nebeneinander. Das ist **Absicht**, kein Wildwuchs:
+
+- **BLoC** (`flutter_bloc`) für Bildschirme mit **echter, testbarer
+  Ablauflogik**, deren Zustandsübergänge wir absichern wollen – v. a. die
+  **Übungen** (`MathBloc`: Level-Auf-/Abstieg, Feedback-Phasen, Ziffern-Gating).
+  Solche Blocs haben eigene Unit-Tests (`math_bloc_test`) und laufen gegen eine
+  In-Memory-DB.
+- **`StatefulWidget` + `getIt<Repo>()`** für **lineare, view-nahe Screens**
+  ohne verzweigte Geschäftslogik: die geführten Eltern-Lektionen
+  (`GuidedSessionPage`, `GuidedMathSessionPage`), Schreiben, Sound-Hunt,
+  Profile, Eltern-Bereich. Hier wäre ein Bloc **Zeremonie ohne Gewinn** – der
+  Zustand ist „lade → zeige → Schritt weiter", und die Schritt-Navigation
+  steckt bereits gekapselt im wiederverwendbaren `StepController`.
+
+**Faustregel für neuen Code:** Verzweigt sich der Zustand nennenswert oder soll
+er per Test abgesichert werden → **Bloc**. Ist es ein geradliniger, an die View
+gebundener Ablauf → **`StatefulWidget`** genügt. Datenzugriff läuft in **beiden**
+Fällen ausschließlich über die Repositories (nie direkt auf die DB).
+
+### Responsive Layout & Ausrichtung (iPad-first, Handy-tauglich)
+
+Die Ausrichtung ist **pro Geräteklasse gesperrt**: `OrientationLock`
+([lib/core/orientation_lock.dart](lib/core/orientation_lock.dart)) hält **Handys
+im Hochformat** (die Tastatur hat vertikal Platz, kein enges Querformat) und
+**Tablets im Querformat** (zweispaltige iPad-first-Layouts). Entschieden wird
+über die *kürzeste* Bildschirmkante (`context.isTablet`, ≥ 600 dp) – die bleibt
+beim Drehen stabil. Ein Best-Effort-Startwert in [main.dart](lib/main.dart)
+vermeidet Flackern beim Kaltstart.
+
+Layouts richten sich nach der **Breite**: [lib/core/responsive.dart](lib/core/responsive.dart)
+liefert `context.isCompact` (Breite < `Breakpoints.compactWidth`, d. h. schmales
+Handy im Hochformat) und `context.responsive(tablet:…, compact:…)`. Geteilte
+Bausteine: `AdaptiveHomeLayout` (Kopf + Grid, gestapelt), `LessonStepView`/
+`StepScaffold` (im Querformat zweispaltig, im Hochformat gestapelt), `MenuTile`
+(zell-adaptiv via `LayoutBuilder`). Grids reduzieren im Hochformat die Spaltenzahl
+für größere Tap-Ziele.
+
+> **Wichtig (iOS):** Die tatsächlich erlaubten Ausrichtungen sind der Schnitt aus
+> `ios/Runner/Info.plist` (`UISupportedInterfaceOrientations` /
+> `…~ipad`) und der Laufzeit-Sperre. Beide iOS-Keys müssen Hoch- **und**
+> Querformat listen, damit `OrientationLock` frei wählen kann.
+
+### Fehler & Repositories
+
 - **Fehler:** `AppBlocObserver` loggt alle Bloc-Fehler; `main` fängt via
   `runZonedGuarded` + `FlutterError.onError` global. Ladefehler in den Modulen
   führen zu einem `error`-State → `ErrorView` mit „Nochmal".

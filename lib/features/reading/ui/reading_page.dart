@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/audio/audio_service.dart';
 import '../../../core/di/service_locator.dart';
+import '../../../core/responsive.dart';
 import '../../../core/theme/tile_style.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/fullscreen_image.dart';
@@ -233,12 +234,13 @@ class _LetterTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = context.isCompact;
     return GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
       child: Container(
-        width: 92,
-        height: 120,
+        width: compact ? 62 : 92,
+        height: compact ? 82 : 120,
         alignment: Alignment.center,
         decoration: TileStyle.surface(
           color,
@@ -253,8 +255,8 @@ class _LetterTile extends StatelessWidget {
           children: [
             Text(
               letter,
-              style: const TextStyle(
-                fontSize: 68,
+              style: TextStyle(
+                fontSize: compact ? 46 : 68,
                 fontWeight: FontWeight.w800,
                 color: TileStyle.ink,
               ),

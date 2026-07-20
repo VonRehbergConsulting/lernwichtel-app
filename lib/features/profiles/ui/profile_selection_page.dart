@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/responsive.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../data/db/database.dart';
 import '../../parent/parent_gate.dart';
@@ -44,11 +45,12 @@ class ProfileSelectionPage extends StatelessWidget {
           }
           return SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(context.isCompact ? 16 : 24),
               child: GridView.count(
-                crossAxisCount: 3,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
+                // Handy (hoch): 2 große Profilkacheln; Tablet: 3.
+                crossAxisCount: context.isCompact ? 2 : 3,
+                mainAxisSpacing: context.isCompact ? 16 : 20,
+                crossAxisSpacing: context.isCompact ? 16 : 20,
                 children: [
                   for (final child in state.children)
                     _ProfileTile(child: child),
