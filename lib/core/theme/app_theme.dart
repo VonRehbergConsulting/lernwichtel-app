@@ -16,7 +16,7 @@ class AppTheme {
   static const _shadow = Color(0x22000000);
 
   static ThemeData light() => _base(
-        ColorScheme.fromSeed(seedColor: seed, brightness: Brightness.light),
+        ColorScheme.fromSeed(seedColor: seed),
       );
 
   static ThemeData dark() => _base(

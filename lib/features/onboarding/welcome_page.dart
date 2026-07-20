@@ -24,10 +24,10 @@ class WelcomePage extends StatelessWidget {
                 children: [
                   const MenuIcon(id: 'lernwichtel', emoji: '🧝', size: 140),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     'Willkommen bei $kAppName!',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 30, fontWeight: FontWeight.w800),
                   ),
                   const SizedBox(height: 20),

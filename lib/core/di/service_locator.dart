@@ -7,9 +7,9 @@ import '../../data/repositories/fund_repository.dart';
 import '../../data/repositories/gate_repository.dart';
 import '../../data/repositories/math_repository.dart';
 import '../../data/repositories/number_repository.dart';
-import '../../data/repositories/settings_repository.dart';
 import '../../data/repositories/progression_repository.dart';
 import '../../data/repositories/reading_repository.dart';
+import '../../data/repositories/settings_repository.dart';
 import '../../features/reading/phonics_player.dart';
 import '../audio/audio_service.dart';
 

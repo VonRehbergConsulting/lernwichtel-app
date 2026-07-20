@@ -10,6 +10,7 @@ import '../../data/repositories/reading_repository.dart';
 import '../hunt/fundstuecke_strip.dart';
 import '../hunt/sound_hunt_page.dart';
 import '../writing/ui/letter_tracer.dart';
+import '../writing/ui/tracer_fullscreen.dart';
 import 'lesson_widgets.dart';
 
 /// Eltern-geführte **Drei-Perioden-Lektion** (Montessori) für einen Anlaut.
@@ -74,7 +75,6 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
         'buchstabe',
         excludeId: letter.id,
         aroundSortOrder: letter.sortOrder,
-        count: 2,
       );
       options
         ..add(letter)
@@ -140,29 +140,24 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
     if (_letter == null) {
       return _allDone();
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Lektion · ${_periods[_step]}'),
-      ),
-      body: SafeArea(
-        child: StepPageView(
-          controller: _flow,
-          step: _step,
-          onStepChanged: (i) => setState(() => _step = i),
-          // Schreiben (4), Rückblick (5, bewusste Bewertung) und Abschluss (6)
-          // nicht wischbar – sonst könnte man zurückwischen und doppelt bewerten.
-          noSwipeSteps: const {4, 5, 6},
-          pages: [
-            _prepStep(),
-            _nameStep(),
-            _showMeStep(),
-            _recallStep(),
-            _writeStep(),
-            _closeStep(),
-            _doneStep(),
-          ],
-        ),
-      ),
+    return LessonStepView(
+      title: 'Lektion',
+      periods: _periods,
+      controller: _flow,
+      step: _step,
+      onStepChanged: (i) => setState(() => _step = i),
+      // Schreiben (4), Rückblick (5, bewusste Bewertung) und Abschluss (6)
+      // nicht wischbar – sonst könnte man zurückwischen und doppelt bewerten.
+      noSwipeSteps: const {4, 5, 6},
+      pages: [
+        _prepStep(),
+        _nameStep(),
+        _showMeStep(),
+        _recallStep(),
+        _writeStep(),
+        _closeStep(),
+        _doneStep(),
+      ],
     );
   }
 
@@ -170,22 +165,26 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
 
   Widget _prepStep() {
     return StepScaffold(
-      content: ListView(
+      hero: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _letterCard(),
+          FundstueckeStrip(childId: widget.child.id, letter: _letter!.symbol),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text('Heute mit ${widget.child.name}:',
               style: const TextStyle(fontSize: 18, color: Colors.black54)),
-          const SizedBox(height: 8),
-          _letterCard(),
-          FundstueckeStrip(
-              childId: widget.child.id, letter: _letter!.symbol),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Center(child: _soundButton('So klingt der Laut')),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           LessonTip('Sprich den **Laut** „$_laut" – nicht den Buchstaben-'
               'Namen. Genau dafür ist der Hör-Knopf da: hör ihn dir einmal an '
               'und mach ihn nach.'),
-          const LessonTip('Haltet es kurz und ruhig – ein paar Minuten nebeneinander '
-              'reichen völlig.'),
+          const LessonTip('Haltet es kurz und ruhig – ein paar Minuten '
+              'nebeneinander reichen völlig.'),
           const LessonTip('Kein Zeitdruck, keine Belohnung nötig. Neugier trägt.'),
         ],
       ),
@@ -196,16 +195,16 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
 
   Widget _nameStep() {
     return StepScaffold(
-      content: Column(
+      hero: _letterCard(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LessonInstruction(
             '1. Benennen',
             'Zeig auf den Buchstaben und sag ruhig: „Das ist $_lautKurz."',
           ),
           const SizedBox(height: 16),
-          _letterCard(),
-          const SizedBox(height: 12),
-          _soundButton('Laut anhören'),
+          Center(child: _soundButton('Laut anhören')),
         ],
       ),
       primaryLabel: 'Weiter',
@@ -216,25 +215,19 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
 
   Widget _showMeStep() {
     return StepScaffold(
-      content: Column(
+      hero: Wrap(
+        spacing: 16,
+        runSpacing: 16,
+        alignment: WrapAlignment.center,
         children: [
-          LessonInstruction(
-            '2. Zeig mir',
-            'Bitte dein Kind: „Zeig mir $_lautKurz." Tippen könnt ihr zum '
-                'Nachhören – zeigen darf es aber auch einfach mit dem Finger.',
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            spacing: 16,
-            runSpacing: 16,
-            alignment: WrapAlignment.center,
-            children: [
-              for (final g in _options)
-                LessonOptionTile(
-                    text: g.symbol, onTap: () => _playLetter(g)),
-            ],
-          ),
+          for (final g in _options)
+            LessonOptionTile(text: g.symbol, onTap: () => _playLetter(g)),
         ],
+      ),
+      body: LessonInstruction(
+        '2. Zeig mir',
+        'Bitte dein Kind: „Zeig mir $_lautKurz." Tippen könnt ihr zum '
+            'Nachhören – zeigen darf es aber auch einfach mit dem Finger.',
       ),
       primaryLabel: 'Weiter',
       onPrimary: () => _flow.goTo(3),
@@ -244,7 +237,15 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
 
   Widget _recallStep() {
     return StepScaffold(
-      content: Column(
+      hero: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _letterCard(),
+          FundstueckeStrip(childId: widget.child.id, letter: _letter!.symbol),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const LessonInstruction(
             '3. Was ist das?',
@@ -252,11 +253,7 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
                 'Dein Kind sagt den Laut – zum Prüfen könnt ihr ihn anhören.',
           ),
           const SizedBox(height: 16),
-          _letterCard(),
-          FundstueckeStrip(
-              childId: widget.child.id, letter: _letter!.symbol),
-          const SizedBox(height: 12),
-          _soundButton('Zur Kontrolle anhören'),
+          Center(child: _soundButton('Zur Kontrolle anhören')),
         ],
       ),
       primaryLabel: 'Weiter',
@@ -267,24 +264,41 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
 
   Widget _writeStep() {
     return StepScaffold(
-      content: Column(
+      heroFills: true,
+      hero: LetterTracer(
+        glyph: _letter!.symbol,
+        box: _box,
+        onSolved: () {
+          if (mounted) setState(() => _wrote = true);
+        },
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const LessonInstruction(
             '4. Schreiben',
             'Jetzt schreibt ihr den Buchstaben. Fahr ihn gemeinsam mit dem '
                 'Finger oder Stift nach.',
           ),
-          const SizedBox(height: 12),
-          Expanded(
-            child: LetterTracer(
-              glyph: _letter!.symbol,
-              box: _box,
-              onSolved: () {
-                if (mounted) setState(() => _wrote = true);
-              },
+          const SizedBox(height: 16),
+          Center(
+            child: FilledButton.tonalIcon(
+              onPressed: () => openTracerFullscreen(
+                context,
+                glyph: _letter!.symbol,
+                box: _box,
+                onSolved: () {
+                  if (mounted) setState(() => _wrote = true);
+                },
+              ),
+              icon: const Icon(Icons.fullscreen_rounded),
+              label: const Text('Groß malen (quer)'),
             ),
           ),
-          if (_wrote) const LessonWroteBadge(),
+          if (_wrote) ...[
+            const SizedBox(height: 12),
+            const LessonWroteBadge(),
+          ],
         ],
       ),
       primaryLabel: 'Weiter',
@@ -295,20 +309,16 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
 
   Widget _closeStep() {
     return StepScaffold(
-      content: ListView(
+      hero: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const LessonInstruction(
-            'Gemeinsam & Rückblick',
-            'Legt das Tablet jetzt weg und geht zusammen auf die Suche:',
-          ),
-          const SizedBox(height: 12),
-          Card(
-            color: const Color(0xFFFFF3E0),
+          const Card(
+            color: Color(0xFFFFF3E0),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   MenuIcon(id: 'such_lupe', emoji: '🔎', size: 40),
                   SizedBox(width: 12),
                   Expanded(
@@ -323,20 +333,27 @@ class _GuidedSessionPageState extends State<GuidedSessionPage> {
             ),
           ),
           const SizedBox(height: 12),
-          Center(
-            child: OutlinedButton.icon(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => SoundHuntPage(
-                  sound: _lautKurz,
-                  letter: _letter!.symbol,
-                  childId: widget.child.id,
-                ),
-              )),
-              icon: const Icon(Icons.photo_camera),
-              label: const Text('Auf Foto-Schatzsuche gehen'),
-            ),
+          OutlinedButton.icon(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => SoundHuntPage(
+                sound: _lautKurz,
+                letter: _letter!.symbol,
+                childId: widget.child.id,
+              ),
+            )),
+            icon: const Icon(Icons.photo_camera),
+            label: const Text('Auf Foto-Schatzsuche gehen'),
           ),
-          const SizedBox(height: 24),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const LessonInstruction(
+            'Gemeinsam & Rückblick',
+            'Legt das Tablet jetzt weg und geht zusammen auf die Suche.',
+          ),
+          const SizedBox(height: 20),
           Text('Wie sicher war ${widget.child.name} beim Laut?',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),

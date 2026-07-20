@@ -209,7 +209,7 @@ Future<LetterMask> buildLetterMask({
   tp.paint(canvas, Offset((w - tp.width) / 2, (h - tp.height) / 2));
 
   final img = await recorder.endRecording().toImage(w, h);
-  final data = await img.toByteData(format: ui.ImageByteFormat.rawRgba);
+  final data = await img.toByteData();
   img.dispose();
 
   final on = List<bool>.filled(cols * rows, false);

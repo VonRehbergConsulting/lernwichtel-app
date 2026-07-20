@@ -58,7 +58,7 @@ void main() {
 
   test('Geschwister-Grapheme fuer die Auswahl (ohne Ziel)', () async {
     final sibs = await reading.siblingGraphemes('buchstabe',
-        excludeId: ids['m']!, aroundSortOrder: 1, count: 2);
+        excludeId: ids['m']!, aroundSortOrder: 1);
     expect(sibs.length, 2);
     expect(sibs.any((g) => g.id == ids['m']), isFalse);
   });

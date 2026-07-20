@@ -9,6 +9,7 @@ import '../../../data/db/database.dart';
 import '../../../data/repositories/number_repository.dart';
 import '../../guided/lesson_widgets.dart';
 import '../../writing/ui/letter_tracer.dart';
+import '../../writing/ui/tracer_fullscreen.dart';
 import '../model/math_problem.dart';
 import '../number_words.dart';
 import 'math_visuals.dart';
@@ -103,25 +104,22 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
     if (_number == null) {
       return _allDone();
     }
-    return Scaffold(
-      appBar: AppBar(title: Text('Zahlen-Lektion · ${_periods[_step]}')),
-      body: SafeArea(
-        child: StepPageView(
-          controller: _flow,
-          step: _step,
-          onStepChanged: (i) => setState(() => _step = i),
-          noSwipeSteps: const {4, 5, 6},
-          pages: [
-            _prepStep(),
-            _nameStep(),
-            _showMeStep(),
-            _countStep(),
-            _writeStep(),
-            _closeStep(),
-            _doneStep(),
-          ],
-        ),
-      ),
+    return LessonStepView(
+      title: 'Zahlen-Lektion',
+      periods: _periods,
+      controller: _flow,
+      step: _step,
+      onStepChanged: (i) => setState(() => _step = i),
+      noSwipeSteps: const {4, 5, 6},
+      pages: [
+        _prepStep(),
+        _nameStep(),
+        _showMeStep(),
+        _countStep(),
+        _writeStep(),
+        _closeStep(),
+        _doneStep(),
+      ],
     );
   }
 
@@ -130,15 +128,15 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
   Widget _prepStep() {
     final n = _number!;
     return StepScaffold(
-      content: ListView(
+      hero: _quantityCard(n),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text('Heute mit ${widget.child.name}:',
               style: const TextStyle(fontSize: 18, color: Colors.black54)),
-          const SizedBox(height: 8),
-          _quantityCard(n),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Center(child: _speakButton('So heißt die Zahl', n)),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           LessonTip('Verknüpft immer **Menge, Zahl und Wort**: „Das sind '
               '**$n** – **${zahlwort(n)}**." Zeig dabei auf die Dinge und tippt '
               'sie beim Zählen einzeln an.'),
@@ -155,7 +153,9 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
   Widget _nameStep() {
     final n = _number!;
     return StepScaffold(
-      content: ListView(
+      hero: _quantityCard(n),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LessonInstruction(
             '1. Benennen',
@@ -163,8 +163,6 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
                 '${zahlwort(n)}."',
           ),
           const SizedBox(height: 16),
-          _quantityCard(n),
-          const SizedBox(height: 12),
           Center(child: _speakButton('Zahl anhören', n)),
         ],
       ),
@@ -177,24 +175,19 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
   Widget _showMeStep() {
     final n = _number!;
     return StepScaffold(
-      content: Column(
+      hero: Wrap(
+        spacing: 16,
+        runSpacing: 16,
+        alignment: WrapAlignment.center,
         children: [
-          LessonInstruction(
-            '2. Zeig mir',
-            'Bitte dein Kind: „Zeig mir die ${zahlwort(n)}." Zum Nachhören '
-                'könnt ihr tippen.',
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            spacing: 16,
-            runSpacing: 16,
-            alignment: WrapAlignment.center,
-            children: [
-              for (final o in _options)
-                LessonOptionTile(text: '$o', onTap: () => _speak(o)),
-            ],
-          ),
+          for (final o in _options)
+            LessonOptionTile(text: '$o', onTap: () => _speak(o)),
         ],
+      ),
+      body: LessonInstruction(
+        '2. Zeig mir',
+        'Bitte dein Kind: „Zeig mir die ${zahlwort(n)}." Zum Nachhören '
+            'könnt ihr tippen.',
       ),
       primaryLabel: 'Weiter',
       onPrimary: () => _flow.goTo(3),
@@ -205,15 +198,17 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
   Widget _countStep() {
     final n = _number!;
     return StepScaffold(
-      content: ListView(
+      hero: Center(
+        child: ObjectsView(count: n, slug: _object!.slug, itemSize: 88),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const LessonInstruction(
             '3. Wie viele?',
             'Zeig nur die Menge und frag: „Wie viele sind das?" Dein Kind '
                 'zählt – zur Kontrolle könnt ihr die Zahl anhören.',
           ),
-          const SizedBox(height: 16),
-          Center(child: ObjectsView(count: n, slug: _object!.slug, itemSize: 88)),
           const SizedBox(height: 16),
           Center(child: _speakButton('Zur Kontrolle anhören', n)),
         ],
@@ -227,24 +222,41 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
   Widget _writeStep() {
     final n = _number!;
     return StepScaffold(
-      content: Column(
+      heroFills: true,
+      hero: LetterTracer(
+        glyph: '$n',
+        box: _box,
+        onSolved: () {
+          if (mounted) setState(() => _wrote = true);
+        },
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LessonInstruction(
             '4. Schreiben',
             'Jetzt schreibt ihr die $n. Fahr sie gemeinsam mit dem Finger '
                 'oder Stift nach.',
           ),
-          const SizedBox(height: 12),
-          Expanded(
-            child: LetterTracer(
-              glyph: '$n',
-              box: _box,
-              onSolved: () {
-                if (mounted) setState(() => _wrote = true);
-              },
+          const SizedBox(height: 16),
+          Center(
+            child: FilledButton.tonalIcon(
+              onPressed: () => openTracerFullscreen(
+                context,
+                glyph: '$n',
+                box: _box,
+                onSolved: () {
+                  if (mounted) setState(() => _wrote = true);
+                },
+              ),
+              icon: const Icon(Icons.fullscreen_rounded),
+              label: const Text('Groß malen (quer)'),
             ),
           ),
-          if (_wrote) const LessonWroteBadge(),
+          if (_wrote) ...[
+            const SizedBox(height: 12),
+            const LessonWroteBadge(),
+          ],
         ],
       ),
       primaryLabel: 'Weiter',
@@ -257,34 +269,34 @@ class _GuidedMathSessionPageState extends State<GuidedMathSessionPage> {
     final n = _number!;
     final dinge = '$n ${n == 1 ? _object!.singular : _object!.plural}';
     return StepScaffold(
-      content: ListView(
+      hero: Card(
+        color: const Color(0xFFFFF3E0),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const MenuIcon(id: 'such_lupe', emoji: '🔎', size: 40),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'Legt zusammen genau $dinge hin (oder irgendwelche '
+                  'Dinge) und zählt sie gemeinsam ab.',
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const LessonInstruction(
             'Gemeinsam & Rückblick',
-            'Legt das Tablet weg und legt es zusammen in echt:',
+            'Legt das Tablet weg und legt es zusammen in echt.',
           ),
-          const SizedBox(height: 12),
-          Card(
-            color: const Color(0xFFFFF3E0),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const MenuIcon(id: 'such_lupe', emoji: '🔎', size: 40),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      'Legt zusammen genau $dinge hin (oder irgendwelche '
-                      'Dinge) und zählt sie gemeinsam ab.',
-                      style: const TextStyle(fontSize: 17),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
           Text('Wie sicher war ${widget.child.name} bei der Zahl?',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),

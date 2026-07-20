@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/responsive.dart';
+import '../../../core/widgets/adaptive_home_layout.dart';
 import '../../../core/widgets/locked_hint.dart';
 import '../../../core/widgets/menu_tile.dart';
 import '../../../data/db/database.dart';
@@ -65,51 +67,45 @@ class _MathHomePageState extends State<MathHomePage> {
     ];
 
     final unlocked = _unlocked;
+    final Widget content;
+    if (unlocked == null) {
+      content = const Center(child: CircularProgressIndicator());
+    } else {
+      final compact = context.isCompact;
+      final lesson = GuidedLessonCard(
+        iconId: 'math_lektion',
+        subtitle: 'Die nächste Zahl gemeinsam einführen',
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(
+              builder: (_) => GuidedMathSessionPage(child: widget.child),
+            ))
+            .then((_) => _load()),
+      );
+      final grid = GridView.count(
+        // Gleiche Kachelgröße wie auf der Lesen-Seite: Handy 2, Tablet 3.
+        crossAxisCount: compact ? 2 : 3,
+        mainAxisSpacing: compact ? 12 : 20,
+        crossAxisSpacing: compact ? 12 : 20,
+        children: [
+          for (final (module, label, subtitle, color) in tiles)
+            MenuTile(
+              iconId: 'math_${module.key}',
+              emoji: module.emoji,
+              label: label,
+              subtitle: subtitle,
+              color: color,
+              locked: !unlocked.contains('math_${module.key}'),
+              onTap: () => _open(module),
+            ),
+        ],
+      );
+
+      content = AdaptiveHomeLayout(sidebar: [lesson], grid: grid);
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text('Rechnen · ${widget.child.name}')),
-      body: SafeArea(
-        child: unlocked == null
-            ? const Center(child: CircularProgressIndicator())
-            : Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    GuidedLessonCard(
-                      iconId: 'math_lektion',
-                      subtitle: 'Die nächste Zahl gemeinsam einführen',
-                      onTap: () => Navigator.of(context)
-                          .push(MaterialPageRoute(
-                            builder: (_) =>
-                                GuidedMathSessionPage(child: widget.child),
-                          ))
-                          .then((_) => _load()),
-                    ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 20,
-                        crossAxisSpacing: 20,
-                        children: [
-                          for (final (module, label, subtitle, color) in tiles)
-                            MenuTile(
-                              iconId: 'math_${module.key}',
-                              emoji: module.emoji,
-                              label: label,
-                              subtitle: subtitle,
-                              color: color,
-                              iconSize: 96,
-                              labelSize: 24,
-                              locked: !unlocked.contains('math_${module.key}'),
-                              onTap: () => _open(module),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
+      body: SafeArea(child: content),
     );
   }
 }

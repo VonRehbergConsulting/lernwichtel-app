@@ -139,7 +139,7 @@ Future<void> main(List<String> args) async {
         opts.quality,
       );
       // Direkt als optimiertes WebP ablegen (statt großem PNG).
-      await writePngAsWebp(bytes, imgFile.path, quality: 90);
+      await writePngAsWebp(bytes, imgFile.path);
       created++;
       stdout.writeln('ok (${(imgFile.lengthSync() / 1024).round()} KB WebP)');
     }

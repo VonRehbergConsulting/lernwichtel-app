@@ -1,8 +1,8 @@
 import 'package:drift/native.dart';
 import 'package:education_app/data/db/database.dart';
 import 'package:education_app/data/repositories/gate_repository.dart';
-import 'package:education_app/data/repositories/reading_repository.dart';
 import 'package:education_app/data/repositories/math_repository.dart';
+import 'package:education_app/data/repositories/reading_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

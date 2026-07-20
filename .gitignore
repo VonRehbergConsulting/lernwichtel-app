@@ -57,3 +57,7 @@ node_modules/
 
 # Store-Quellmaterial (Screenshots, Feature-Grafiken) – nicht ins Repo
 store/
+
+# Lose Key-/Credential-Dateien (z. B. Play-Service-Account)
+json.key
+*.key

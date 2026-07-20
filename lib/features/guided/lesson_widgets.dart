@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/responsive.dart';
 import '../../core/theme/tile_style.dart';
 import '../../core/widgets/menu_icon.dart';
 
@@ -82,6 +83,9 @@ class GuidedLessonCard extends StatelessWidget {
     // Warmer Korall-Verlauf – hebt die Eltern-Karte als besondere Kachel ab
     // und passt zum Look der Auswahl-Kacheln (heller Verlauf, dunkle Schrift).
     const ink = TileStyle.ink;
+    final compact = context.isCompact;
+    final well = compact ? 48.0 : 72.0;
+    final pad = compact ? 14.0 : 20.0;
 
     return DecoratedBox(
       decoration: TileStyle.surface(const Color(0xFFF7A98A),
@@ -92,21 +96,22 @@ class GuidedLessonCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(28),
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(pad),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   children: [
                     Container(
-                      width: 72,
-                      height: 72,
+                      width: well,
+                      height: well,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.55),
-                        borderRadius: BorderRadius.circular(22),
+                        borderRadius: BorderRadius.circular(well * 0.3),
                       ),
                       alignment: Alignment.center,
-                      child: MenuIcon(id: iconId, emoji: '🧝', size: 60),
+                      child: MenuIcon(
+                          id: iconId, emoji: '🧝', size: well * 0.82),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -127,15 +132,17 @@ class GuidedLessonCard extends StatelessWidget {
                                     fontWeight: FontWeight.w700)),
                           ),
                           const SizedBox(height: 6),
-                          const Text('Gemeinsame Lektion',
+                          Text('Gemeinsame Lektion',
                               style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: compact ? 18 : 22,
                                   fontWeight: FontWeight.w800,
                                   color: ink)),
                           const SizedBox(height: 2),
                           Text(subtitle,
+                              maxLines: compact ? 1 : 2,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: compact ? 12.5 : 14,
                                   fontWeight: FontWeight.w600,
                                   color: ink.withValues(alpha: 0.62))),
                         ],
@@ -143,7 +150,7 @@ class GuidedLessonCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: compact ? 10 : 16),
                 FilledButton.icon(
                   onPressed: onTap,
                   icon: const Icon(Icons.play_arrow_rounded),
@@ -167,10 +174,11 @@ class LessonGlyphCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = context.isCompact ? 132.0 : 200.0;
     return Center(
       child: Container(
-        width: 200,
-        height: 200,
+        width: s,
+        height: s,
         alignment: Alignment.center,
         decoration: TileStyle.surface(const Color(0xFFFFCC80), radius: 28),
         child: FittedBox(
@@ -200,18 +208,20 @@ class LessonOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = context.isCompact;
+    final s = compact ? 68.0 : 96.0;
     return InkWell(
       borderRadius: BorderRadius.circular(22),
       onTap: onTap,
       child: Container(
-        width: 96,
-        height: 96,
+        width: s,
+        height: s,
         alignment: Alignment.center,
         decoration: TileStyle.surface(const Color(0xFF90CAF9),
             radius: 22, depth: 0.7),
         child: Text(text,
-            style: const TextStyle(
-                fontSize: 52,
+            style: TextStyle(
+                fontSize: compact ? 36 : 52,
                 fontWeight: FontWeight.w800,
                 color: TileStyle.ink)),
       ),
@@ -297,43 +307,118 @@ class LessonTip extends StatelessWidget {
 }
 
 /// Rahmen für einen Schritt: Inhalt oben, Aktions-Knöpfe unten.
+/// Rahmen für einen Lektions-Schritt mit Aktions-Knöpfen unten.
+///
+/// Zwei Nutzungsarten:
+/// * [content] – einspaltig, scrollbar (Rückwärtskompatibilität).
+/// * [hero] + [body] – im **Querformat** nebeneinander (Hero links, Anleitung
+///   rechts) statt gestapelt: nutzt die Breite, spart die knappe Höhe. Im
+///   Hochformat gestapelt. [heroFills] lässt den Hero die Fläche ausfüllen
+///   (z. B. den Malbereich beim Schreiben).
 class StepScaffold extends StatelessWidget {
   const StepScaffold({
     super.key,
-    required this.content,
+    this.content,
+    this.hero,
+    this.body,
+    this.heroFills = false,
     this.primaryLabel,
     this.onPrimary,
     this.onBack,
-  });
+  }) : assert(content != null || hero != null || body != null);
 
-  final Widget content;
+  final Widget? content;
+  final Widget? hero;
+  final Widget? body;
+  final bool heroFills;
   final String? primaryLabel;
   final VoidCallback? onPrimary;
   final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
-    // Auf breiten Tablets mittig und begrenzt – passt zum Rest der App.
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: Column(
-          children: [
-            Expanded(child: content),
-            const SizedBox(height: 12),
-            Row(
+    final size = MediaQuery.sizeOf(context);
+    final landscape = size.width >= size.height;
+
+    final Widget main;
+    if (content != null) {
+      // content bringt sein Scrollen selbst mit (i. d. R. ein ListView) – hier
+      // KEIN SingleChildScrollView, sonst bekäme ein ListView unbegrenzte Höhe.
+      main = Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 640),
+          child: content,
+        ),
+      );
+    } else if (landscape) {
+      main = Row(
+        children: [
+          if (hero != null)
+            Expanded(
+              flex: 5,
+              child: heroFills
+                  ? hero!
+                  : Center(child: SingleChildScrollView(child: hero!)),
+            ),
+          if (hero != null && body != null) const SizedBox(width: 20),
+          if (body != null)
+            Expanded(
+              flex: 5,
+              child: Center(child: SingleChildScrollView(child: body!)),
+            ),
+        ],
+      );
+    } else if (heroFills && hero != null) {
+      // Hochformat mit fülllendem Hero (z. B. die Mal-Fläche): Body kompakt
+      // oben, Hero füllt den restlichen Platz – NICHT scrollen, sonst bekäme
+      // der Hero unbegrenzte Höhe und würde winzig.
+      main = Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 640),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (body != null) ...[
+                body!,
+                const SizedBox(height: 12),
+              ],
+              Expanded(child: hero!),
+            ],
+          ),
+        ),
+      );
+    } else {
+      main = Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 640),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (onBack != null)
-                  TextButton(onPressed: onBack, child: const Text('Zurück')),
-                const Spacer(),
-                if (primaryLabel != null)
-                  FilledButton(
-                      onPressed: onPrimary, child: Text(primaryLabel!)),
+                ?hero,
+                if (hero != null && body != null) const SizedBox(height: 16),
+                ?body,
               ],
             ),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        Expanded(child: main),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            if (onBack != null)
+              TextButton(onPressed: onBack, child: const Text('Zurück')),
+            const Spacer(),
+            if (primaryLabel != null)
+              FilledButton(onPressed: onPrimary, child: Text(primaryLabel!)),
           ],
         ),
-      ),
+      ],
     );
   }
 }
@@ -363,6 +448,51 @@ class StepDots extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Gemeinsamer Rahmen der geführten Lektionen (Lesen & Rechnen): AppBar mit
+/// aktuellem Perioden-Titel + [StepPageView]. Der Schritt-Zustand
+/// ([StepController]/Index) bleibt beim jeweiligen Lektions-Widget – hier nur
+/// die einheitliche Darstellung, damit beide Lektionen nicht dieselbe
+/// Rahmen-Boilerplate duplizieren.
+class LessonStepView extends StatelessWidget {
+  const LessonStepView({
+    super.key,
+    required this.title,
+    required this.periods,
+    required this.controller,
+    required this.step,
+    required this.onStepChanged,
+    required this.pages,
+    this.noSwipeSteps = const {},
+  });
+
+  final String title;
+  final List<String> periods;
+  final StepController controller;
+  final int step;
+  final ValueChanged<int> onStepChanged;
+  final List<Widget> pages;
+  final Set<int> noSwipeSteps;
+
+  @override
+  Widget build(BuildContext context) {
+    final period = step < periods.length ? periods[step] : '';
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(period.isEmpty ? title : '$title · $period'),
+      ),
+      body: SafeArea(
+        child: StepPageView(
+          controller: controller,
+          step: step,
+          onStepChanged: onStepChanged,
+          noSwipeSteps: noSwipeSteps,
+          pages: pages,
+        ),
       ),
     );
   }

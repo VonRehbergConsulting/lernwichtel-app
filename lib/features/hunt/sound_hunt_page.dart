@@ -56,8 +56,10 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
   }
 
   Future<void> _capture() async {
-    final x =
-        await _picker.pickImage(source: ImageSource.camera, maxWidth: 1280);
+    final x = await _picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1280,
+    );
     if (x == null || !mounted) return;
     setState(() {
       _photo = x;
@@ -80,8 +82,7 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
 
   void _pickSuggestion(Word w) {
     _name.text = w.word;
-    _name.selection =
-        TextSelection.collapsed(offset: _name.text.length);
+    _name.selection = TextSelection.collapsed(offset: _name.text.length);
     setState(() {
       _matches = const [];
       _existing = w;
@@ -89,11 +90,11 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
   }
 
   void _retake() => setState(() {
-        _photo = null;
-        _name.clear();
-        _matches = const [];
-        _existing = null;
-      });
+    _photo = null;
+    _name.clear();
+    _matches = const [];
+    _existing = null;
+  });
 
   /// Kopiert das Foto dauerhaft (Fundstück) und ordnet es optional einem Wort
   /// zu: bestehendes überschreiben ODER neues Wort anlegen.
@@ -111,7 +112,10 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
         await _reading.setWordImage(existing.id, fund.filePath, existing.word);
         message = 'Foto für „${existing.word}" gespeichert.';
       } else if (newWord != null && newWord.trim().isNotEmpty) {
-        final w = await _reading.createWordWithImage(newWord.trim(), fund.filePath);
+        final w = await _reading.createWordWithImage(
+          newWord.trim(),
+          fund.filePath,
+        );
         message = '„${w.word}" als neues Wort angelegt.';
       } else {
         message = '📸 Im Fundstück-Album gespeichert.';
@@ -127,10 +131,12 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
       });
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
-        ..showSnackBar(SnackBar(
-          duration: const Duration(seconds: 2),
-          content: Text(message),
-        ));
+        ..showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 2),
+            content: Text(message),
+          ),
+        );
     } catch (_) {
       if (!mounted) return;
       setState(() => _saving = false);
@@ -145,9 +151,14 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Laut-Schatzsuche')),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: _photo == null ? _searchView() : _reviewView(),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: _photo == null ? _searchView() : _reviewView(),
+            ),
+          ),
         ),
       ),
     );
@@ -156,8 +167,11 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
   Widget _searchView() {
     return Column(
       children: [
-        const Text('Sucht zusammen etwas, das mit',
-            style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+        const Text(
+          'Sucht zusammen etwas, das mit',
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
@@ -165,18 +179,25 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
             color: const Color(0xFFFFE0B2),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Text('„${widget.sound}"',
-              style: const TextStyle(fontSize: 44, fontWeight: FontWeight.w700)),
+          child: Text(
+            '„${widget.sound}"',
+            style: const TextStyle(fontSize: 44, fontWeight: FontWeight.w700),
+          ),
         ),
         const SizedBox(height: 8),
-        const Text('anfängt – und fotografiert es!',
-            style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+        const Text(
+          'anfängt – und fotografiert es!',
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
         const Spacer(),
         if (_found > 0)
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: Text('Schon $_found gefunden 🌟',
-                style: const TextStyle(fontSize: 18, color: Colors.black54)),
+            child: Text(
+              'Schon $_found gefunden 🌟',
+              style: const TextStyle(fontSize: 18, color: Colors.black54),
+            ),
           ),
         FilledButton.icon(
           onPressed: _capture,
@@ -198,96 +219,102 @@ class _SoundHuntPageState extends State<SoundHuntPage> {
 
   Widget _reviewView() {
     final name = _name.text.trim();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.file(File(_photo!.path), fit: BoxFit.contain),
-          ),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: _name,
-          autofocus: true,
-          textCapitalization: TextCapitalization.words,
-          textInputAction: TextInputAction.done,
-          style: const TextStyle(fontSize: 22),
-          decoration: const InputDecoration(
-            labelText: 'Wie heißt das?',
-            hintText: 'z. B. Ball',
-            prefixIcon: Icon(Icons.edit_outlined),
-          ),
-          onChanged: _onNameChanged,
-        ),
-        // Vorschläge aus vorhandenen Wörtern.
-        if (_matches.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final w in _matches)
-                  ActionChip(
-                    avatar: const Icon(Icons.image_outlined, size: 18),
-                    label: Text(w.word),
-                    onPressed: () => _pickSuggestion(w),
-                  ),
-              ],
+    // Scrollbar, damit die Tastatur bei der Namenseingabe nichts verdeckt.
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 280),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.file(File(_photo!.path), fit: BoxFit.contain),
             ),
           ),
-        if (_existing != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(
-              'Ersetzt das Bild von „${_existing!.word}".',
-              style: const TextStyle(color: Colors.black54),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _name,
+            autofocus: true,
+            textCapitalization: TextCapitalization.words,
+            textInputAction: TextInputAction.done,
+            style: const TextStyle(fontSize: 22),
+            decoration: const InputDecoration(
+              labelText: 'Wie heißt das?',
+              hintText: 'z. B. Ball',
+              prefixIcon: Icon(Icons.edit_outlined),
             ),
+            onChanged: _onNameChanged,
           ),
-        const SizedBox(height: 14),
-        Row(
-          children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                onPressed: _saving ? null : _retake,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Nochmal'),
+          // Vorschläge aus vorhandenen Wörtern.
+          if (_matches.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final w in _matches)
+                    ActionChip(
+                      avatar: const Icon(Icons.image_outlined, size: 18),
+                      label: Text(w.word),
+                      onPressed: () => _pickSuggestion(w),
+                    ),
+                ],
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              flex: 2,
-              child: FilledButton.icon(
-                onPressed: (_saving || name.isEmpty)
-                    ? null
-                    : () => _existing != null
-                        ? _save(existing: _existing)
-                        : _save(newWord: name),
-                icon: Icon(_existing != null ? Icons.check : Icons.add),
-                label: Text(
-                  _existing != null
-                      ? 'Für „$name" nehmen'
-                      : name.isEmpty
-                          ? 'Name eingeben'
-                          : '„$name" anlegen',
-                  overflow: TextOverflow.ellipsis,
+          if (_existing != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                'Ersetzt das Bild von „${_existing!.word}".',
+                style: const TextStyle(color: Colors.black54),
+              ),
+            ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _saving ? null : _retake,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Nochmal'),
                 ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Center(
-          child: TextButton(
-            onPressed: _saving ? null : () => _save(),
-            child: const Text('Ohne Namen nur behalten'),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 2,
+                child: FilledButton.icon(
+                  onPressed: (_saving || name.isEmpty)
+                      ? null
+                      : () => _existing != null
+                            ? _save(existing: _existing)
+                            : _save(newWord: name),
+                  icon: Icon(_existing != null ? Icons.check : Icons.add),
+                  label: Text(
+                    _existing != null
+                        ? 'Für „$name" nehmen'
+                        : name.isEmpty
+                        ? 'Name eingeben'
+                        : '„$name" anlegen',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 4),
-        const Center(child: MenuIcon(id: 'such_lupe', emoji: '🔎', size: 30)),
-      ],
+          const SizedBox(height: 8),
+          Center(
+            child: TextButton(
+              onPressed: _saving ? null : () => _save(),
+              child: const Text('Ohne Namen nur behalten'),
+            ),
+          ),
+          const SizedBox(height: 4),
+          const Center(
+            child: MenuIcon(id: 'such_lupe', emoji: '🔎', size: 30),
+          ),
+        ],
+      ),
     );
   }
 }

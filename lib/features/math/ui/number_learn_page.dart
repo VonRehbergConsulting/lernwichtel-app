@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/audio/audio_service.dart';
 import '../../../core/di/service_locator.dart';
+import '../../../core/responsive.dart';
 import '../../../core/theme/tile_style.dart';
 import '../../../data/db/database.dart';
 import '../../../data/repositories/number_repository.dart';
@@ -82,8 +83,57 @@ class _NumberLearnPageState extends State<NumberLearnPage> {
   }
 
   /// Groesse der Zaehl-Objekte: wenige = gross.
-  double _itemSize(int n) =>
-      n <= 2 ? 150 : (n <= 4 ? 120 : (n <= 6 ? 92 : 72));
+  double _itemSize(int n) => n <= 2 ? 150 : (n <= 4 ? 120 : (n <= 6 ? 92 : 72));
+
+  /// Zähl-Objekte + große Ziffer. Querformat (Tablet): nebeneinander.
+  /// Hochformat (Handy): Ziffer oben, Objekte darunter (statt gequetschter
+  /// Zwei-Spalten-Reihe).
+  Widget _teachArea(_Step step) {
+    final objects = Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: ObjectsView(
+          count: step.zahl,
+          slug: step.obj.slug,
+          itemSize: _itemSize(step.zahl),
+        ),
+      ),
+    );
+    final digit = GestureDetector(
+      onTap: _sprich,
+      child: Container(
+        width: 200,
+        height: 240,
+        alignment: Alignment.center,
+        decoration: TileStyle.surface(const Color(0xFFFFCC80), radius: 28),
+        child: Text(
+          '${step.zahl}',
+          style: const TextStyle(
+            fontSize: 160,
+            fontWeight: FontWeight.w800,
+            color: TileStyle.ink,
+          ),
+        ),
+      ),
+    );
+
+    if (context.isCompact) {
+      return Column(
+        children: [
+          const SizedBox(height: 12),
+          digit,
+          const SizedBox(height: 8),
+          Expanded(child: objects),
+        ],
+      );
+    }
+    return Row(
+      children: [
+        Expanded(child: objects),
+        Expanded(child: Center(child: digit)),
+      ],
+    );
+  }
 
   void _weiter() {
     if (_index < _steps.length - 1) {
@@ -121,57 +171,13 @@ class _NumberLearnPageState extends State<NumberLearnPage> {
       appBar: AppBar(
         title: Text('Zahlen kennenlernen · ${widget.child.name}'),
         actions: [
-          TextButton(
-            onPressed: _zumUeben,
-            child: const Text('Üben →'),
-          ),
+          TextButton(onPressed: _zumUeben, child: const Text('Üben →')),
         ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  // Objekte zum Abzählen.
-                  Expanded(
-                    child: Center(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(16),
-                        child: ObjectsView(
-                        count: step.zahl,
-                        slug: step.obj.slug,
-                        itemSize: _itemSize(step.zahl),
-                      ),
-                      ),
-                    ),
-                  ),
-                  // Die Ziffer, antippbar zum erneuten Hören.
-                  Expanded(
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: _sprich,
-                        child: Container(
-                          width: 200,
-                          height: 240,
-                          alignment: Alignment.center,
-                          decoration: TileStyle.surface(const Color(0xFFFFCC80),
-                              radius: 28),
-                          child: Text(
-                            '${step.zahl}',
-                            style: const TextStyle(
-                              fontSize: 160,
-                              fontWeight: FontWeight.w800,
-                              color: TileStyle.ink,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            Expanded(child: _teachArea(step)),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: Row(

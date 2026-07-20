@@ -41,8 +41,10 @@ class ObjectsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (count == 0) {
-      return const Text('0',
-          style: TextStyle(fontSize: 72, fontWeight: FontWeight.w800));
+      return const Text(
+        '0',
+        style: TextStyle(fontSize: 72, fontWeight: FontWeight.w800),
+      );
     }
     return Wrap(
       alignment: WrapAlignment.center,
@@ -55,8 +57,12 @@ class ObjectsView extends StatelessWidget {
   }
 }
 
-/// Zahl als Zehner-Bündel (Zehnerrahmen) + einzelne Einer – mit großen Punkten
-/// zum Mit-dem-Finger-Nachzählen.
+/// Zahl als **Zehner-Stangen** (Montessori-Prinzip): jede volle Zehnerstange ist
+/// eine senkrechte Spalte aus 10 Perlen (5 + 5 mit kleiner Lücke, damit man sie
+/// auf einen Blick als „zehn" erkennt); die Einer bilden eine kürzere Spalte
+/// daneben. Die Spalten stehen wie auf einer Grundlinie nebeneinander – das
+/// bleibt bis 100 kompakt (≈ quadratisch statt einer langen Punktewand) und ist
+/// gut mit dem Finger abzuzählen.
 class TensOnesView extends StatelessWidget {
   const TensOnesView({super.key, required this.value});
   final int value;
@@ -65,58 +71,51 @@ class TensOnesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final tens = value ~/ 10;
     final ones = value % 10;
-    return Wrap(
-      alignment: WrapAlignment.center,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 16,
-      runSpacing: 16,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        for (var t = 0; t < tens; t++) const _TenFrame(),
-        if (ones > 0) _dotRows(ones, _dot),
+        for (var t = 0; t < tens; t++)
+          const _BeadRod(count: 10, color: _tenDot),
+        if (ones > 0) _BeadRod(count: ones, color: _dot),
       ],
     );
   }
 }
 
-/// Ein Zehner: voller Zehnerrahmen (2 Reihen × 5) mit großen Punkten.
-class _TenFrame extends StatelessWidget {
-  const _TenFrame();
+/// Eine senkrechte Perlen-Spalte (Stange). Nach der fünften Perle eine kleine
+/// Lücke, damit auch zehn Perlen leicht zu zählen sind.
+class _BeadRod extends StatelessWidget {
+  const _BeadRod({required this.count, required this.color});
+  final int count;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
+    const bead = 26.0;
     return Container(
-      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0x224FC3F7),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: _dotRows(10, _tenDot),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var i = 0; i < count; i++) ...[
+            if (i == 5) const SizedBox(height: 10),
+            Container(
+              width: bead,
+              height: bead,
+              margin: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+          ],
+        ],
+      ),
     );
   }
-}
-
-/// Große Punkte in Reihen zu je fünf – leicht mit dem Finger nachzuzählen.
-Widget _dotRows(int count, Color color, {int perRow = 5}) {
-  const dotSize = 30.0;
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      for (var start = 0; start < count; start += perRow)
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            for (var i = start; i < start + perRow && i < count; i++)
-              Container(
-                width: dotSize,
-                height: dotSize,
-                margin: const EdgeInsets.all(5),
-                decoration:
-                    BoxDecoration(color: color, shape: BoxShape.circle),
-              ),
-          ],
-        ),
-    ],
-  );
 }
 
 /// Objekt-Reihe für kleine Operanden (Plus/Minus anschaulich).
