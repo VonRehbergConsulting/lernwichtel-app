@@ -47,7 +47,7 @@ Im Abschnitt „Ein Blick hinein" gibt es im Tablet-Rahmen einen Platzhalter
 
 - **Impressum** (Footer): die gelb markierten Platzhalter (Straße, PLZ/Ort,
   Name, ggf. USt-ID) ausfüllen.
-- **Links**: GitHub-URL (`github.com/vonrehberg-consulting/lernwichtel`),
+- **Links**: GitHub-URL (`github.com/VonRehbergConsulting/lernwichtel-app`),
   Google-Play-ID und App-Store-Link auf die echten Ziele setzen.
 
 ## Deployment (z. B. GitHub Pages)
