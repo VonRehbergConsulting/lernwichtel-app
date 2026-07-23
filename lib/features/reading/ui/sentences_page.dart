@@ -146,7 +146,11 @@ class _WordChip extends StatelessWidget {
   Widget build(BuildContext context) {
     // Sehr lange Wörter dürfen die Bildschirmbreite nicht überschreiten:
     // Chip auf die Breite deckeln, Wort ggf. herunterskalieren (nie umbrechen).
-    final maxWidth = MediaQuery.sizeOf(context).width - 48;
+    // clamp: auf extrem schmalen Viewports nie negativ werden (BoxConstraints).
+    final maxWidth = (MediaQuery.sizeOf(context).width - 48).clamp(
+      0.0,
+      double.infinity,
+    );
     return GestureDetector(
       onTap: onTap,
       child: ConstrainedBox(
