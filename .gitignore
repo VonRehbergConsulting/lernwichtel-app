@@ -4,6 +4,9 @@
 *.pyc
 *.swp
 .DS_Store
+
+# Laute-Recorder: lokal erzeugte, selbstsignierte Zertifikate
+tool/laute_recorder/.certs/
 .atom/
 .build/
 .buildlog/

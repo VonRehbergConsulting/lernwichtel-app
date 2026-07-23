@@ -173,22 +173,16 @@ Icon, zeigt die App automatisch das **Emoji als Fallback** (Widget
 ## Laute (Anlaut-Methode)
 
 Kern der Lesedidaktik: Buchstaben werden als **Laut** gelernt, nicht als Name.
-TTS spricht bei Einzelbuchstaben oft den Namen ("Em" statt "mmm") – deshalb
-werden die Laute per Pipeline mit **espeak-ng** erzeugt und gebündelt. Über die
-**Lautschrift (IPA)** wird der reine Laut exakt vorgegeben (deutsche Stimme).
+TTS spricht bei Einzelbuchstaben oft den Namen ("Em" statt "mmm"), und auch
+neuronale TTS-Stimmen bekommen isolierte Laute (v. a. gerolltes r, ö/ü, Plosive)
+nicht sauber hin. Deshalb sind die Anlaute **echte, von Hand eingesprochene
+Aufnahmen**, gebündelt als `assets/audio/laute/<key>.wav` (ein File je
+Graphem-Schlüssel).
 
-Skript: [tool/generate_laute.dart](tool/generate_laute.dart) →
-`assets/audio/laute/<key>.wav` (ein File je Graphem-Schlüssel).
-
-```bash
-brew install espeak-ng                       # einmalig
-fvm dart run tool/generate_laute.dart        # erzeugt alle Laute
-# Optionen: --force, --only=m,sch, --speed=150
-```
-
-Die IPA-Zuordnung steht als Tabelle `_phon` im Skript und ist mit
-`espeak-ng -v de -q --ipa "<input>"` textuell prüfbar. Klingt ein Laut daneben,
-einfach den Eintrag anpassen und mit `--force --only=<key>` neu erzeugen.
+Welche Datei zu welchem Laut gehört – inkl. Sprech-Hinweis und Beispielwort –
+steht in [assets/audio/laute/README.md](assets/audio/laute/README.md). Zum
+Ersetzen einfach die gleichnamige WAV-Datei überschreiben; Änderungen greifen
+nach erneutem Build.
 
 **Wiedergabe-Reihenfolge im `AudioService`:** eigene Aufnahme
 (`App-Dokumente/laute/<key>.m4a`, für spätere Ersetzung einzelner Laute) →
