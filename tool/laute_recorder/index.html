@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lernwichtel · Laute aufnehmen</title>
+<style>
+  :root {
+    --bg: #f4f6fb; --card: #ffffff; --ink: #1c2430; --muted: #6b7684;
+    --line: #e3e8f0; --accent: #3f7d5f; --accent-ink: #ffffff;
+    --warn: #b45309; --ok: #3f7d5f; --rec: #c0392b;
+    --shadow: 0 6px 24px rgba(20,34,52,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12161d; --card: #1b212b; --ink: #eef2f8; --muted: #97a3b4;
+      --line: #2a3341; --accent: #6fbf95; --accent-ink: #0e1a13;
+      --warn: #f0b429; --ok: #6fbf95; --rec: #ff6b5e;
+      --shadow: 0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--ink);
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 48px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  h1 { font-size: 18px; margin: 0; font-weight: 650; letter-spacing: .2px; }
+  .progress { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    box-shadow: var(--shadow); padding: 24px; text-align: center;
+  }
+  .glyph { font-size: clamp(64px, 22vw, 132px); font-weight: 700; line-height: 1; margin: 4px 0 2px; }
+  .say { font-size: 22px; color: var(--accent); font-weight: 600; margin: 6px 0 2px; }
+  .say .hint { color: var(--muted); font-weight: 400; font-size: 16px; }
+  .example { color: var(--muted); font-size: 15px; margin-bottom: 4px; }
+  .badge {
+    display: inline-block; font-size: 12px; padding: 2px 10px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted); margin-top: 6px;
+  }
+  .badge.done { color: var(--ok); border-color: var(--ok); }
+
+  .meter { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; margin: 18px 0 4px; }
+  .meter > i { display: block; height: 100%; width: 0%; background: var(--accent); transition: width .06s linear; }
+  .status { min-height: 20px; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .status.recording { color: var(--rec); font-weight: 600; }
+
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  button {
+    font: inherit; font-weight: 600; border: 1px solid var(--line); background: var(--card);
+    color: var(--ink); padding: 12px 18px; border-radius: 12px; cursor: pointer;
+    -webkit-tap-highlight-color: transparent; min-width: 108px;
+  }
+  button:disabled { opacity: .4; cursor: default; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  button.danger { background: var(--rec); color: #fff; border-color: transparent; }
+  .nav { display: flex; justify-content: space-between; margin-top: 14px; }
+  .nav button { min-width: 0; padding: 10px 14px; }
+
+  .keys { text-align: center; color: var(--muted); font-size: 12px; margin-top: 10px; }
+  .keys kbd {
+    font: inherit; font-size: 11px; border: 1px solid var(--line); border-bottom-width: 2px;
+    border-radius: 6px; padding: 1px 6px; margin: 0 2px; background: var(--bg);
+  }
+
+  .grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; justify-content: center; }
+  .chip {
+    font-size: 14px; padding: 7px 11px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--card); cursor: pointer; color: var(--muted); min-width: 44px; text-align: center;
+  }
+  .chip.done { color: var(--ok); border-color: var(--ok); }
+  .chip.active { outline: 2px solid var(--accent); outline-offset: 1px; color: var(--ink); }
+  .group-title { width: 100%; text-align: left; color: var(--muted); font-size: 13px;
+    font-weight: 600; margin: 12px 2px 2px; }
+
+  .fatal { background: #fdecea; color: #8a1c13; border: 1px solid #f5c6c0; padding: 14px 16px;
+    border-radius: 12px; margin-bottom: 16px; }
+  @media (prefers-color-scheme: dark) {
+    .fatal { background: #3a1714; color: #ffb4ac; border-color: #6b2b25; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Laute aufnehmen</h1>
+    <div class="progress" id="progress">–</div>
+  </header>
+
+  <div id="fatal" class="fatal" hidden></div>
+
+  <div class="card" id="card">
+    <div class="glyph" id="glyph">·</div>
+    <div class="say" id="say"></div>
+    <div class="example" id="example"></div>
+    <div class="badge" id="badge">–</div>
+
+    <div class="meter"><i id="meterbar"></i></div>
+    <div class="status" id="status">Bereit.</div>
+
+    <div class="controls">
+      <button id="recBtn" class="primary">● Aufnehmen</button>
+      <button id="playBtn" disabled>▶︎ Anhören</button>
+      <button id="saveBtn" class="primary" disabled>✓ Speichern</button>
+    </div>
+
+    <div class="nav">
+      <button id="prevBtn">← Zurück</button>
+      <button id="skipBtn">Nächster offener →</button>
+    </div>
+
+    <div class="keys">
+      <kbd>Leertaste</kbd> Aufnehmen/Stopp · <kbd>P</kbd> Anhören ·
+      <kbd>Enter</kbd> Speichern · <kbd>←</kbd>/<kbd>→</kbd> Blättern
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+"use strict";
+
+const $ = (id) => document.getElementById(id);
+const fatal = (msg) => { const f = $("fatal"); f.hidden = false; f.textContent = msg; };
+
+let items = [];          // {key, laut, beispiel, group, recorded}
+let idx = 0;
+let currentBlob = null;  // frisch aufgenommene, noch nicht gespeicherte WAV
+let recording = false;
+
+// ---- Audio-Aufnahme (Web Audio -> 16-bit PCM WAV) -------------------------
+
+let audioCtx = null, stream = null, source = null, processor = null;
+let chunks = [];         // Float32Array-Stuecke
+let sampleRate = 44100;
+
+async function ensureMic() {
+  if (stream) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    throw new Error("Mikrofon-API nicht verfuegbar. HTTPS/secure context noetig.");
+  }
+  stream = await navigator.mediaDevices.getUserMedia({
+    audio: { channelCount: 1, echoCancellation: false, noiseSuppression: true, autoGainControl: true },
+  });
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  sampleRate = audioCtx.sampleRate;
+  source = audioCtx.createMediaStreamSource(stream);
+  processor = audioCtx.createScriptProcessor(4096, 1, 1);
+  processor.onaudioprocess = (e) => {
+    const input = e.inputBuffer.getChannelData(0);
+    if (recording) chunks.push(new Float32Array(input));
+    // Pegelanzeige
+    let peak = 0;
+    for (let i = 0; i < input.length; i++) { const v = Math.abs(input[i]); if (v > peak) peak = v; }
+    $("meterbar").style.width = Math.min(100, Math.round(peak * 140)) + "%";
+  };
+  source.connect(processor);
+  processor.connect(audioCtx.destination); // noetig, damit onaudioprocess feuert
+}
+
+async function startRec() {
+  try { await ensureMic(); } catch (e) { fatal(e.message); return; }
+  if (audioCtx.state === "suspended") await audioCtx.resume();
+  chunks = [];
+  currentBlob = null;
+  recording = true;
+  $("recBtn").textContent = "■ Stopp";
+  $("recBtn").classList.add("danger");
+  $("recBtn").classList.remove("primary");
+  $("status").textContent = "Aufnahme läuft … sprich den Laut.";
+  $("status").classList.add("recording");
+  $("saveBtn").disabled = true;
+  $("playBtn").disabled = true;
+}
+
+function stopRec() {
+  recording = false;
+  $("recBtn").textContent = "● Aufnehmen";
+  $("recBtn").classList.remove("danger");
+  $("recBtn").classList.add("primary");
+  $("meterbar").style.width = "0%";
+  $("status").classList.remove("recording");
+
+  const total = chunks.reduce((n, c) => n + c.length, 0);
+  if (total < sampleRate * 0.15) { // < 150 ms -> vermutlich Fehlklick
+    $("status").textContent = "Zu kurz – bitte nochmal aufnehmen.";
+    return;
+  }
+  const merged = new Float32Array(total);
+  let off = 0;
+  for (const c of chunks) { merged.set(c, off); off += c.length; }
+  const trimmed = trimSilence(merged, sampleRate);
+  currentBlob = encodeWav(trimmed, sampleRate);
+  $("status").textContent = "Aufnahme fertig – anhören oder speichern.";
+  $("saveBtn").disabled = false;
+  $("playBtn").disabled = false;
+}
+
+// Stille am Anfang/Ende grob abschneiden (Schwelle + kleiner Puffer).
+function trimSilence(buf, sr) {
+  const thr = 0.015;
+  let start = 0, end = buf.length - 1;
+  while (start < buf.length && Math.abs(buf[start]) < thr) start++;
+  while (end > start && Math.abs(buf[end]) < thr) end--;
+  const pad = Math.floor(sr * 0.05);
+  start = Math.max(0, start - pad);
+  end = Math.min(buf.length - 1, end + pad);
+  if (end <= start) return buf;
+  return buf.subarray(start, end + 1);
+}
+
+function encodeWav(samples, sr) {
+  const n = samples.length;
+  const buffer = new ArrayBuffer(44 + n * 2);
+  const view = new DataView(buffer);
+  const wr = (o, s) => { for (let i = 0; i < s.length; i++) view.setUint8(o + i, s.charCodeAt(i)); };
+  wr(0, "RIFF"); view.setUint32(4, 36 + n * 2, true); wr(8, "WAVE");
+  wr(12, "fmt "); view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);   // PCM
+  view.setUint16(22, 1, true);   // mono
+  view.setUint32(24, sr, true);
+  view.setUint32(28, sr * 2, true);
+  view.setUint16(32, 2, true);   // block align
+  view.setUint16(34, 16, true);  // bits
+  wr(36, "data"); view.setUint32(40, n * 2, true);
+  let o = 44;
+  for (let i = 0; i < n; i++) {
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    view.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true);
+    o += 2;
+  }
+  return new Blob([view], { type: "audio/wav" });
+}
+
+// ---- Wiedergabe -----------------------------------------------------------
+
+function play() {
+  const it = items[idx];
+  const url = currentBlob ? URL.createObjectURL(currentBlob)
+                          : (it.recorded ? "/laute/" + encodeURIComponent(it.key) + ".wav?ts=" + Date.now()
+                                         : null);
+  if (!url) return;
+  const a = new Audio(url);
+  a.play().catch(() => {});
+}
+
+// ---- Speichern ------------------------------------------------------------
+
+async function save() {
+  if (!currentBlob) return;
+  const it = items[idx];
+  $("saveBtn").disabled = true;
+  $("status").textContent = "Speichere …";
+  try {
+    const res = await fetch("/save?key=" + encodeURIComponent(it.key), {
+      method: "POST",
+      headers: { "Content-Type": "audio/wav" },
+      body: currentBlob,
+    });
+    if (!res.ok) throw new Error(await res.text());
+    it.recorded = true;
+    currentBlob = null;
+    $("status").textContent = "Gespeichert ✓";
+    renderProgress();
+    renderGrid();
+    setTimeout(nextOpen, 250);
+  } catch (e) {
+    $("status").textContent = "Fehler beim Speichern: " + e.message;
+    $("saveBtn").disabled = false;
+  }
+}
+
+// ---- Navigation & Rendering ----------------------------------------------
+
+function show(i) {
+  idx = (i + items.length) % items.length;
+  currentBlob = null;
+  const it = items[idx];
+  $("glyph").textContent = displayGlyph(it.key);
+  $("say").innerHTML = 'Sprich: <b>' + escapeHtml(sayText(it.laut)) + '</b>'
+    + (hintText(it.laut) ? ' <span class="hint">(' + escapeHtml(hintText(it.laut)) + ')</span>' : '');
+  $("example").textContent = it.beispiel ? "wie in „" + it.beispiel + "“" : "";
+  const badge = $("badge");
+  badge.textContent = it.recorded ? "schon aufgenommen" : "noch offen";
+  badge.classList.toggle("done", !!it.recorded);
+  $("status").textContent = "Bereit.";
+  $("status").classList.remove("recording");
+  $("meterbar").style.width = "0%";
+  $("saveBtn").disabled = true;
+  $("playBtn").disabled = !it.recorded;
+  renderGrid();
+}
+
+// Interne Keys wie "ch-ach" lesbar machen; ae/oe/ue als Umlaute zeigen.
+function displayGlyph(key) {
+  const map = { ae: "Ä", oe: "Ö", ue: "Ü" };
+  if (map[key]) return map[key];
+  if (key.includes("-")) return key.split("-")[0]; // "ch-ach" -> "ch"
+  return key;
+}
+// "aeae (offenes ae)" -> Sprechteil / Klammerhinweis getrennt.
+function sayText(laut) { const m = laut.match(/^([^(]+?)\s*(?:\(|$)/); return (m ? m[1] : laut).trim(); }
+function hintText(laut) { const m = laut.match(/\(([^)]+)\)/); return m ? m[1] : ""; }
+
+function nextOpen() {
+  const start = idx;
+  for (let step = 1; step <= items.length; step++) {
+    const j = (start + step) % items.length;
+    if (!items[j].recorded) { show(j); return; }
+  }
+  $("status").textContent = "Alle Laute aufgenommen 🎉";
+}
+
+function renderProgress() {
+  const done = items.filter((x) => x.recorded).length;
+  $("progress").textContent = done + " / " + items.length;
+}
+
+function renderGrid() {
+  const grid = $("grid");
+  grid.innerHTML = "";
+  let lastGroup = null;
+  items.forEach((it, i) => {
+    if (it.group !== lastGroup) {
+      lastGroup = it.group;
+      const t = document.createElement("div");
+      t.className = "group-title";
+      t.textContent = it.group;
+      grid.appendChild(t);
+    }
+    const c = document.createElement("button");
+    c.className = "chip" + (it.recorded ? " done" : "") + (i === idx ? " active" : "");
+    c.textContent = displayGlyph(it.key);
+    c.title = it.key;
+    c.onclick = () => show(i);
+    grid.appendChild(c);
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+// ---- Events ---------------------------------------------------------------
+
+$("recBtn").onclick = () => (recording ? stopRec() : startRec());
+$("playBtn").onclick = play;
+$("saveBtn").onclick = save;
+$("prevBtn").onclick = () => show(idx - 1);
+$("skipBtn").onclick = nextOpen;
+
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.code === "Space") { e.preventDefault(); recording ? stopRec() : startRec(); }
+  else if (e.key === "Enter") { if (!$("saveBtn").disabled) save(); }
+  else if (e.key.toLowerCase() === "p") { if (!$("playBtn").disabled) play(); }
+  else if (e.key === "ArrowRight") show(idx + 1);
+  else if (e.key === "ArrowLeft") show(idx - 1);
+});
+
+// ---- Start ----------------------------------------------------------------
+
+(async function init() {
+  try {
+    const res = await fetch("/graphemes.json");
+    const data = await res.json();
+    items = data.items;
+    if (!items.length) { fatal("Keine Laute gefunden."); return; }
+    renderProgress();
+    renderGrid();
+    // Beim ersten offenen Laut starten (oder beim ersten, wenn alles fertig).
+    const firstOpen = items.findIndex((x) => !x.recorded);
+    show(firstOpen >= 0 ? firstOpen : 0);
+  } catch (e) {
+    fatal("Konnte Laute nicht laden: " + e.message);
+  }
+})();
+</script>
+</body>
+</html>
