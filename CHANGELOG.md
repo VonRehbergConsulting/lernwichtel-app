@@ -1,3 +1,14 @@
+## [1.1.0](https://github.com/VonRehbergConsulting/lernwichtel-app/compare/v1.0.4...v1.1.0) (2026-07-23)
+
+### Features
+
+* Layout Support für Smartphone ([55c9904](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/55c9904e646e3eb5555a643d5523ded11563579e))
+* Verbesserte Anlaute und Tool zum Aufnehmen der Laute ([0a9cd15](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/0a9cd15e8e72530d7c94e7856d45fc3d8193761e))
+
+### Bug Fixes
+
+* Repository Link der Webseite angepasst ([18424a4](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/18424a41eefff8d6b75454e65dea72a59110dc63))
+
 ## [1.0.4](https://github.com/VonRehbergConsulting/lernwichtel-app/compare/v1.0.3...v1.0.4) (2026-07-19)
 
 ### Bug Fixes
