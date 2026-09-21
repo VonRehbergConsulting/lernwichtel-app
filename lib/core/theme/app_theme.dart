@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Kindgerechtes, ruhiges Theme – jetzt wärmer und einladender: freundliche
-/// runde Schrift (Baloo 2), warme Farbwelt, sanfte Tiefe auf Karten/Kacheln.
+/// Kindgerechtes, ruhiges Theme – warm und einladend: gut lesbare Schrift
+/// (Andika), warme Farbwelt, sanfte Tiefe auf Karten/Kacheln.
 /// Bewusst weiterhin wenige Ablenkungen. Die generierten Bilder bleiben Star.
 class AppTheme {
-  static const _font = 'Baloo2';
+  /// Andika (SIL) statt Baloo 2: Baloo zeichnet kleines l und großes I als
+  /// praktisch identische Balken (80 bzw. 81 Einheiten breit) – fatal beim
+  /// Lesenlernen. Andika unterscheidet sie klar (l 225, I 675) und nutzt
+  /// einstöckiges a/g wie die Grundschrift. Zum Zurückdrehen: 'Baloo2'.
+  static const _font = 'Andika';
 
   /// Warmes Korall-Orange als Grundton (statt kühlem Blau).
   static const seed = Color(0xFFF07A54);

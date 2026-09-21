@@ -96,8 +96,20 @@ flutter:
     - assets/images/menu/
 
   fonts:
-    # Kinderfreundliche, runde Schrift (variabel; fontWeight steuert die
-    # Gewichtsachse). Offline gebündelt – kein Runtime-Download.
+    # Lese-Lern-Schrift (SIL, OFL – Lizenz: assets/fonts/Andika-OFL.txt).
+    # Für Leseanfänger entworfen: kleines l mit Bogen (nicht mit großem I zu
+    # verwechseln), einstöckiges a und g wie in der Grundschrift, klare
+    # Konturen an r und n. Nur 400/700 – schwerere Gewichte (w800) mappt
+    # Flutter auf Bold. Offline gebündelt – kein Runtime-Download.
+    - family: Andika
+      fonts:
+        - asset: assets/fonts/Andika-Regular.ttf
+        - asset: assets/fonts/Andika-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Andika-Italic.ttf
+          style: italic
+    # Vorgänger, bleibt vorerst gebündelt, damit sich die Schrift per
+    # AppTheme._font in einer Zeile zurückdrehen lässt.
     - family: Baloo2
       fonts:
         - asset: assets/fonts/Baloo2.ttf
