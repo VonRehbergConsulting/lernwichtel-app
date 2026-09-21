@@ -93,12 +93,20 @@ class GateRepository {
       auto.add('lese_saetze');
     }
 
-    // Rechnen, erste Stufe: der Zahlenraum 1..10 muss komplett sitzen.
-    if (await _masteredNumberCount(childId) >= numbersForZehner) {
+    // Rechnen, erste Stufe: der Zahlenraum 1..10 muss komplett sitzen. Er
+    // oeffnet ZWEI gleichwertige Wege – in die Breite ("Zahlen bis 100") und
+    // in die Tiefe ("Plus", Level 1 rechnet bis 5). So kommt das Kind zum
+    // Rechnen, ohne den Umweg ueber den Hunderterraum nehmen zu muessen.
+    final numbers = await _masteredNumberCount(childId);
+    if (numbers >= numbersForZehner) {
       auto.add('math_zehner');
+      auto.add('math_addieren');
     }
 
-    // Rechnen, weitere Stufen: Level im Vorgaenger-Modul.
+    // Rechnen, weitere Stufen: Level im Vorgaenger-Modul. Der Zehner-Pfad auf
+    // Plus bleibt zusaetzlich bestehen – sonst haette ein Kind, dem die Eltern
+    // "Zahlen bis 100" von Hand geoeffnet haben, dort Level 3 erreichen
+    // koennen und saesse trotzdem vor einem gesperrten Plus.
     final levels = await _mathLevels(childId);
     if ((levels['zehner'] ?? 1) >= mathLevelToAdvance) auto.add('math_addieren');
     if ((levels['addieren'] ?? 1) >= mathLevelToAdvance) {

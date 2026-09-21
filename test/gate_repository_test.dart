@@ -63,21 +63,24 @@ void main() {
     expect(unlocked.contains('lese_saetze'), isFalse);
   });
 
-  test('alle Zahlen 1..10 sicher oeffnen Zahlen bis 100 automatisch',
-      () async {
+  test('alle Zahlen 1..10 sicher oeffnen Zahlen bis 100 UND Plus', () async {
     for (var n = 1; n <= GateRepository.numbersForZehner; n++) {
       await numbers.setMastered(childId: childId, value: n, mastered: true);
     }
     final unlocked = await gate.unlockedFor(childId);
     expect(unlocked.contains('math_zehner'), isTrue);
-    expect(unlocked.contains('math_addieren'), isFalse);
+    expect(unlocked.contains('math_addieren'), isTrue);
+    // Minus bleibt hinter Plus – die Reihenfolge ist unstrittig.
+    expect(unlocked.contains('math_subtrahieren'), isFalse);
   });
 
-  test('eine fehlende Zahl haelt Zahlen bis 100 zu', () async {
+  test('eine fehlende Zahl haelt Zahlen bis 100 und Plus zu', () async {
     for (var n = 1; n < GateRepository.numbersForZehner; n++) {
       await numbers.setMastered(childId: childId, value: n, mastered: true);
     }
-    expect((await gate.unlockedFor(childId)).contains('math_zehner'), isFalse);
+    final unlocked = await gate.unlockedFor(childId);
+    expect(unlocked.contains('math_zehner'), isFalse);
+    expect(unlocked.contains('math_addieren'), isFalse);
   });
 
   test('Ziffern-Uebung allein oeffnet Zahlen bis 100 NICHT', () async {

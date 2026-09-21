@@ -59,7 +59,7 @@ const kLearningSections = <LearningSection>[
     key: 'math_addieren',
     track: LearningTrack.rechnen,
     label: 'Plus',
-    lockedHint: 'Übe zuerst die Zahlen bis 100, dann geht das hier auf.',
+    lockedHint: 'Wenn du alle Zahlen bis 10 sicher kennst, geht das hier auf.',
   ),
   LearningSection(
     key: 'math_subtrahieren',
