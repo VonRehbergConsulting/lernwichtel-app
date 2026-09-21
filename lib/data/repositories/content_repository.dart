@@ -15,7 +15,7 @@ class ContentRepository {
 
   /// Bei jeder inhaltlichen Aenderung der Seed-JSON hochzaehlen -> die App
   /// zieht neue Grapheme/Merksaetze/Woerter beim naechsten Start nach.
-  static const _contentVersion = 4;
+  static const _contentVersion = 5;
 
   /// Cache: Graphem-Key -> kuratierte Beispielwoerter (aus der Seed-JSON).
   Map<String, List<String>>? _exampleCache;

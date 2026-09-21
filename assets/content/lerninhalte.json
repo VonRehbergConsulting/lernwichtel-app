@@ -122,7 +122,7 @@
       "beispiele": [
         "Igel",
         "Insel",
-        "Igloo"
+        "Iglu"
       ]
     },
     {
@@ -298,7 +298,7 @@
       "reihenfolge": 25,
       "beispiele": [
         "Übung",
-        "Überall"
+        "überall"
       ]
     },
     {
@@ -434,7 +434,6 @@
         "Biene",
         "Wiese",
         "Ziege",
-        "Tiger",
         "sieben",
         "Riese",
         "Brief",
@@ -472,8 +471,7 @@
         "Nacht",
         "Kuchen",
         "lachen",
-        "Drache",
-        "Dachs"
+        "Drache"
       ]
     },
     {
@@ -520,8 +518,6 @@
         "Straße",
         "Stiefel",
         "Stift",
-        "Nest",
-        "Wurst",
         "Storch"
       ]
     },

@@ -151,8 +151,8 @@
     "slug": "insel",
     "prompt": "A tiny island with one palm tree in the sea"
   },
-  "Igloo": {
-    "slug": "igloo",
+  "Iglu": {
+    "slug": "iglu",
     "prompt": "A small igloo made of ice blocks"
   },
   "Tasse": {
@@ -363,7 +363,7 @@
     "slug": "uebung",
     "prompt": "A cheerful child doing a fun stretching exercise"
   },
-  "Überall": {
+  "überall": {
     "slug": "ueberall",
     "prompt": "Colorful little stars scattered all around"
   },
