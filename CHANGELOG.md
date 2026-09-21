@@ -1,3 +1,19 @@
+## [1.2.0](https://github.com/VonRehbergConsulting/lernwichtel-app/compare/v1.1.0...v1.2.0) (2026-09-21)
+
+### Features
+
+* **gate:** Plus geht direkt nach dem Zahlenraum bis 10 auf ([191d328](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/191d32850ef850b253b3038c6825c2479a4fbffe))
+* Layout Support für Smartphone ([e3c13ed](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/e3c13edc72b7761e2205dd33fb9aae542c2b5974))
+* **theme:** Andika als App-Schrift statt Baloo 2 ([403b703](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/403b703304e8f3efa6757de52bb3bfffadd7f770))
+* Verbesserte Anlaute und Tool zum Aufnehmen der Laute ([0e6989c](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/0e6989cc228406fd65b0d110899649e70c583fd0))
+
+### Bug Fixes
+
+* Beispielbild für Sieben enthielt nur 6 Kugeln ([534cffa](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/534cffae381eccfbdf184a1c2f76e0919b559f7e))
+* **gate:** "Zahlen bis 100" richtet sich nach den beherrschten Zahlen ([f11a027](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/f11a02709ce476302321608c6a5e2207a11f679c))
+* **inhalte:** fehlerhafte Beispielwoerter korrigiert ([c6b8348](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/c6b8348fefd64c7fe96f851928a6803b6a1640b1))
+* Repository Link der Webseite angepasst ([2a7e100](https://github.com/VonRehbergConsulting/lernwichtel-app/commit/2a7e1008791dd6303620fcda883be8b81f6cbb78))
+
 ## [1.1.0](https://github.com/VonRehbergConsulting/lernwichtel-app/compare/v1.0.4...v1.1.0) (2026-07-23)
 
 ### Features
