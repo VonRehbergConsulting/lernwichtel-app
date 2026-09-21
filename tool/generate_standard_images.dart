@@ -70,13 +70,24 @@ Future<void> main(List<String> args) async {
   }
   final seed = jsonDecode(await seedFile.readAsString()) as Map<String, dynamic>;
 
-  // Woerter einsammeln (Buchstaben-Beispiele + Lautverbindungs-Beispiele).
+  // Woerter einsammeln: ALLES, wofuer die App ein Bild anzeigen kann. Neben
+  // den Buchstaben-/Lautverbindungs-Beispielen sind das die Silben- und
+  // Reimwoerter (WordImage/FullscreenImage suchen dort ebenfalls per Slug).
+  // Fehlt hier ein Abschnitt, haengt das Wort in der App am Platzhalter.
   final words = <String>{};
   for (final key in ['buchstaben', 'lautverbindungen']) {
     for (final e in (seed[key] as List? ?? const [])) {
       for (final w in ((e as Map)['beispiele'] as List? ?? const [])) {
         words.add(w as String);
       }
+    }
+  }
+  for (final e in (seed['silben'] as List? ?? const [])) {
+    words.add((e as Map)['wort'] as String);
+  }
+  for (final e in (seed['reime'] as List? ?? const [])) {
+    for (final w in ((e as Map)['woerter'] as List? ?? const [])) {
+      words.add(w as String);
     }
   }
   var wordList = words.toList()..sort();

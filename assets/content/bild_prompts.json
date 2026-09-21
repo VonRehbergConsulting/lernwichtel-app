@@ -890,5 +890,9 @@
   "Quirl": {
     "slug": "quirl",
     "prompt": "A metal kitchen whisk"
+  },
+  "Schokolade": {
+    "slug": "schokolade",
+    "prompt": "A chocolate bar with a few squares broken off"
   }
 }
