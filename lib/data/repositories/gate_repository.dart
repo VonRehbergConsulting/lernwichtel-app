@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../db/database.dart';
+import 'number_repository.dart';
 
 /// Entscheidet, welche Lern-Bereiche fuer ein Kind freigeschaltet sind.
 ///
@@ -28,6 +29,14 @@ class GateRepository {
 
   /// Level im Vorgaenger-Modul, ab dem das naechste Rechen-Modul aufgeht.
   static const mathLevelToAdvance = 3;
+
+  /// Sichere Zahlen, bis "Zahlen bis 100" aufgeht: ALLE aus dem Zahlenraum
+  /// 1..10. Bewusst nicht am `mathSkills`-Level der Ziffern-Uebung haengend –
+  /// die Uebung ist auf die bereits eingefuehrten Zahlen gedeckelt und sagt
+  /// darum nichts darueber, ob das Kind den ganzen Zahlenraum beherrscht.
+  /// Gefuellt wird `numberProgress` von der gefuehrten Lektion und vom
+  /// Eltern-Bereich ("Beherrschte Zahlen").
+  static const numbersForZehner = NumberRepository.maxNumber;
 
   /// Alle aktuell freigeschalteten Bereiche eines Kindes.
   Future<Set<String>> unlockedFor(int childId) async {
@@ -84,9 +93,21 @@ class GateRepository {
       auto.add('lese_saetze');
     }
 
-    // Rechnen: Level im Vorgaenger-Modul.
+    // Rechnen, erste Stufe: der Zahlenraum 1..10 muss komplett sitzen. Er
+    // oeffnet ZWEI gleichwertige Wege – in die Breite ("Zahlen bis 100") und
+    // in die Tiefe ("Plus", Level 1 rechnet bis 5). So kommt das Kind zum
+    // Rechnen, ohne den Umweg ueber den Hunderterraum nehmen zu muessen.
+    final numbers = await _masteredNumberCount(childId);
+    if (numbers >= numbersForZehner) {
+      auto.add('math_zehner');
+      auto.add('math_addieren');
+    }
+
+    // Rechnen, weitere Stufen: Level im Vorgaenger-Modul. Der Zehner-Pfad auf
+    // Plus bleibt zusaetzlich bestehen – sonst haette ein Kind, dem die Eltern
+    // "Zahlen bis 100" von Hand geoeffnet haben, dort Level 3 erreichen
+    // koennen und saesse trotzdem vor einem gesperrten Plus.
     final levels = await _mathLevels(childId);
-    if ((levels['ziffern'] ?? 1) >= mathLevelToAdvance) auto.add('math_zehner');
     if ((levels['zehner'] ?? 1) >= mathLevelToAdvance) auto.add('math_addieren');
     if ((levels['addieren'] ?? 1) >= mathLevelToAdvance) {
       auto.add('math_subtrahieren');
@@ -111,6 +132,17 @@ class GateRepository {
       counts[kind] = (counts[kind] ?? 0) + 1;
     }
     return counts;
+  }
+
+  /// Anzahl "sicherer" Zahlen im Zahlenraum 1..[NumberRepository.maxNumber].
+  Future<int> _masteredNumberCount(int childId) async {
+    final rows = await (_db.select(_db.numberProgress)
+          ..where((p) =>
+              p.childId.equals(childId) &
+              p.status.equals('sicher') &
+              p.value.isBetweenValues(1, NumberRepository.maxNumber)))
+        .get();
+    return rows.length;
   }
 
   /// Aktuelles Level je Rechen-Modul.

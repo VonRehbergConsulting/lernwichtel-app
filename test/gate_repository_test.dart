@@ -2,6 +2,7 @@ import 'package:drift/native.dart';
 import 'package:education_app/data/db/database.dart';
 import 'package:education_app/data/repositories/gate_repository.dart';
 import 'package:education_app/data/repositories/math_repository.dart';
+import 'package:education_app/data/repositories/number_repository.dart';
 import 'package:education_app/data/repositories/reading_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -10,6 +11,7 @@ void main() {
   late GateRepository gate;
   late ReadingRepository reading;
   late MathRepository math;
+  late NumberRepository numbers;
   late int childId;
 
   Future<int> letter(String s, String kind) async {
@@ -24,6 +26,7 @@ void main() {
     gate = GateRepository(db);
     reading = ReadingRepository(db);
     math = MathRepository(db);
+    numbers = NumberRepository(db);
     final child = await db
         .into(db.children)
         .insertReturning(ChildrenCompanion.insert(name: 'T'));
@@ -60,8 +63,29 @@ void main() {
     expect(unlocked.contains('lese_saetze'), isFalse);
   });
 
-  test('Ziffern-Level oeffnet Zahlen bis 100 automatisch', () async {
-    // Level bis zur Schwelle hochspielen (je 3 richtige = +1 Level).
+  test('alle Zahlen 1..10 sicher oeffnen Zahlen bis 100 UND Plus', () async {
+    for (var n = 1; n <= GateRepository.numbersForZehner; n++) {
+      await numbers.setMastered(childId: childId, value: n, mastered: true);
+    }
+    final unlocked = await gate.unlockedFor(childId);
+    expect(unlocked.contains('math_zehner'), isTrue);
+    expect(unlocked.contains('math_addieren'), isTrue);
+    // Minus bleibt hinter Plus – die Reihenfolge ist unstrittig.
+    expect(unlocked.contains('math_subtrahieren'), isFalse);
+  });
+
+  test('eine fehlende Zahl haelt Zahlen bis 100 und Plus zu', () async {
+    for (var n = 1; n < GateRepository.numbersForZehner; n++) {
+      await numbers.setMastered(childId: childId, value: n, mastered: true);
+    }
+    final unlocked = await gate.unlockedFor(childId);
+    expect(unlocked.contains('math_zehner'), isFalse);
+    expect(unlocked.contains('math_addieren'), isFalse);
+  });
+
+  test('Ziffern-Uebung allein oeffnet Zahlen bis 100 NICHT', () async {
+    // Die Uebung ist auf die eingefuehrten Zahlen gedeckelt und sagt darum
+    // nichts ueber den ganzen Zahlenraum – frueher reichte sie trotzdem.
     for (var i = 0; i < 3 * (GateRepository.mathLevelToAdvance - 1); i++) {
       await math.recordAnswer(
         childId: childId,
@@ -70,8 +94,20 @@ void main() {
         correct: true,
       );
     }
+    expect((await gate.unlockedFor(childId)).contains('math_zehner'), isFalse);
+  });
+
+  test('Zehner-Level oeffnet Plus (Kette dahinter unveraendert)', () async {
+    for (var i = 0; i < 3 * (GateRepository.mathLevelToAdvance - 1); i++) {
+      await math.recordAnswer(
+        childId: childId,
+        module: 'zehner',
+        problem: '10+1',
+        correct: true,
+      );
+    }
     final unlocked = await gate.unlockedFor(childId);
-    expect(unlocked.contains('math_zehner'), isTrue);
-    expect(unlocked.contains('math_addieren'), isFalse);
+    expect(unlocked.contains('math_addieren'), isTrue);
+    expect(unlocked.contains('math_subtrahieren'), isFalse);
   });
 }

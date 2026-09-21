@@ -122,7 +122,7 @@
       "beispiele": [
         "Igel",
         "Insel",
-        "Igloo"
+        "Iglu"
       ]
     },
     {
@@ -298,7 +298,7 @@
       "reihenfolge": 25,
       "beispiele": [
         "Übung",
-        "Überall"
+        "überall"
       ]
     },
     {
@@ -434,7 +434,6 @@
         "Biene",
         "Wiese",
         "Ziege",
-        "Tiger",
         "sieben",
         "Riese",
         "Brief",
@@ -472,8 +471,7 @@
         "Nacht",
         "Kuchen",
         "lachen",
-        "Drache",
-        "Dachs"
+        "Drache"
       ]
     },
     {
@@ -520,8 +518,6 @@
         "Straße",
         "Stiefel",
         "Stift",
-        "Nest",
-        "Wurst",
         "Storch"
       ]
     },
@@ -835,6 +831,285 @@
     {
       "text": "Wir bauen einen Turm aus Steinen.",
       "stufe": 3
+    }
+  ],
+  "silben": [
+    {
+      "wort": "Ball",
+      "silben": [
+        "Ball"
+      ]
+    },
+    {
+      "wort": "Baum",
+      "silben": [
+        "Baum"
+      ]
+    },
+    {
+      "wort": "Fisch",
+      "silben": [
+        "Fisch"
+      ]
+    },
+    {
+      "wort": "Buch",
+      "silben": [
+        "Buch"
+      ]
+    },
+    {
+      "wort": "Haus",
+      "silben": [
+        "Haus"
+      ]
+    },
+    {
+      "wort": "Hund",
+      "silben": [
+        "Hund"
+      ]
+    },
+    {
+      "wort": "Stuhl",
+      "silben": [
+        "Stuhl"
+      ]
+    },
+    {
+      "wort": "Zug",
+      "silben": [
+        "Zug"
+      ]
+    },
+    {
+      "wort": "Apfel",
+      "silben": [
+        "Ap",
+        "fel"
+      ]
+    },
+    {
+      "wort": "Sonne",
+      "silben": [
+        "Son",
+        "ne"
+      ]
+    },
+    {
+      "wort": "Hase",
+      "silben": [
+        "Ha",
+        "se"
+      ]
+    },
+    {
+      "wort": "Tasse",
+      "silben": [
+        "Tas",
+        "se"
+      ]
+    },
+    {
+      "wort": "Auto",
+      "silben": [
+        "Au",
+        "to"
+      ]
+    },
+    {
+      "wort": "Nase",
+      "silben": [
+        "Na",
+        "se"
+      ]
+    },
+    {
+      "wort": "Katze",
+      "silben": [
+        "Kat",
+        "ze"
+      ]
+    },
+    {
+      "wort": "Vogel",
+      "silben": [
+        "Vo",
+        "gel"
+      ]
+    },
+    {
+      "wort": "Wolke",
+      "silben": [
+        "Wol",
+        "ke"
+      ]
+    },
+    {
+      "wort": "Lampe",
+      "silben": [
+        "Lam",
+        "pe"
+      ]
+    },
+    {
+      "wort": "Biene",
+      "silben": [
+        "Bie",
+        "ne"
+      ]
+    },
+    {
+      "wort": "Ziege",
+      "silben": [
+        "Zie",
+        "ge"
+      ]
+    },
+    {
+      "wort": "Banane",
+      "silben": [
+        "Ba",
+        "na",
+        "ne"
+      ]
+    },
+    {
+      "wort": "Elefant",
+      "silben": [
+        "E",
+        "le",
+        "fant"
+      ]
+    },
+    {
+      "wort": "Giraffe",
+      "silben": [
+        "Gi",
+        "raf",
+        "fe"
+      ]
+    },
+    {
+      "wort": "Zitrone",
+      "silben": [
+        "Zi",
+        "tro",
+        "ne"
+      ]
+    },
+    {
+      "wort": "Ameise",
+      "silben": [
+        "A",
+        "mei",
+        "se"
+      ]
+    },
+    {
+      "wort": "Roboter",
+      "silben": [
+        "Ro",
+        "bo",
+        "ter"
+      ]
+    },
+    {
+      "wort": "Schmetterling",
+      "silben": [
+        "Schmet",
+        "ter",
+        "ling"
+      ]
+    },
+    {
+      "wort": "Schokolade",
+      "silben": [
+        "Scho",
+        "ko",
+        "la",
+        "de"
+      ]
+    }
+  ],
+  "reime": [
+    {
+      "endung": "isch",
+      "woerter": [
+        "Fisch",
+        "Tisch"
+      ]
+    },
+    {
+      "endung": "opf",
+      "woerter": [
+        "Kopf",
+        "Topf"
+      ]
+    },
+    {
+      "endung": "aus",
+      "woerter": [
+        "Haus",
+        "Maus"
+      ]
+    },
+    {
+      "endung": "ose",
+      "woerter": [
+        "Rose",
+        "Dose"
+      ]
+    },
+    {
+      "endung": "eis",
+      "woerter": [
+        "Eis",
+        "Reis"
+      ]
+    },
+    {
+      "endung": "ocke",
+      "woerter": [
+        "Socke",
+        "Glocke"
+      ]
+    },
+    {
+      "endung": "asse",
+      "woerter": [
+        "Tasse",
+        "Straße"
+      ]
+    },
+    {
+      "endung": "ase",
+      "woerter": [
+        "Hase",
+        "Nase",
+        "Vase"
+      ]
+    },
+    {
+      "endung": "iege",
+      "woerter": [
+        "Ziege",
+        "Fliege"
+      ]
+    },
+    {
+      "endung": "ecke",
+      "woerter": [
+        "Schnecke",
+        "Decke"
+      ]
+    },
+    {
+      "endung": "und",
+      "woerter": [
+        "Hund",
+        "Mund"
+      ]
     }
   ]
 }
