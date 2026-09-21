@@ -151,6 +151,57 @@ class ContentRepository {
       ..sort((a, b) => a.level.compareTo(b.level));
     return sentences;
   }
+
+  /// Silben-Woerter direkt aus der Seed-JSON (Reihenfolge = Silben-Progression,
+  /// 1 -> 4 Silben). Wie die Saetze zustandslos, daher nicht in der DB.
+  Future<List<SyllableWord>> loadSyllableWords() async {
+    final raw = await rootBundle.loadString(_seedAsset);
+    final json = jsonDecode(raw) as Map<String, dynamic>;
+    final list = (json['silben'] as List? ?? const [])
+        .cast<Map<String, dynamic>>();
+    return [
+      for (final e in list)
+        SyllableWord(
+          word: e['wort'] as String,
+          syllables: (e['silben'] as List).cast<String>(),
+        ),
+    ];
+  }
+
+  /// Reim-Gruppen (gleiche Endung) direkt aus der Seed-JSON. Zustandslos.
+  ///
+  /// TODO(phonologische-bewusstheit): wird aktuell von NIEMANDEM aufgerufen –
+  /// die Reim-Uebung fehlt noch. Daten (`reime` in der Seed-JSON) und Modell
+  /// stehen bereit. Gesamtstand des Features: siehe `SilbenPage`.
+  Future<List<RhymeGroup>> loadRhymeGroups() async {
+    final raw = await rootBundle.loadString(_seedAsset);
+    final json = jsonDecode(raw) as Map<String, dynamic>;
+    final list = (json['reime'] as List? ?? const [])
+        .cast<Map<String, dynamic>>();
+    return [
+      for (final e in list)
+        RhymeGroup(
+          ending: e['endung'] as String,
+          words: (e['woerter'] as List).cast<String>(),
+        ),
+    ];
+  }
+}
+
+/// Ein Wort mit seiner Silbentrennung (zum Silbenklatschen).
+class SyllableWord {
+  const SyllableWord({required this.word, required this.syllables});
+  final String word;
+  final List<String> syllables;
+
+  int get count => syllables.length;
+}
+
+/// Eine Reimfamilie: mehrere Woerter mit gleicher Endung.
+class RhymeGroup {
+  const RhymeGroup({required this.ending, required this.words});
+  final String ending;
+  final List<String> words;
 }
 
 /// Ein einfacher Uebungssatz mit Schwierigkeitsstufe.
